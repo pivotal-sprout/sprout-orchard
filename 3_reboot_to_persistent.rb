@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require File.join(File.dirname(__FILE__), "lib/util.rb")
+include Util
 
-Util.disappear_reappear
+disappear_reappear
 
 puts "machine back up"

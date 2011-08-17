@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
 require File.join(File.dirname(__FILE__), "lib/util.rb")
+include Util
 
-unless Util.on_persistent?
-  Util.reboot_to("/Volumes/Persistent")
+unless on_persistent?
+  reboot_to("/Volumes/Persistent")
   Timeout::timeout(120) do
-    until Util.on_persistent?
+    until on_persistent?
       sleep 1
     end   
   end
@@ -20,6 +21,6 @@ system!("ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdiutil attach /dev/disk0
 system!("ssh pivotal@bacon.flood.pivotallabs.com 'cp .ssh/authorized_keys2 /Volumes/bacon/Users/pivotal/.ssh/'")
 system!("ssh pivotal@bacon.flood.pivotallabs.com 'cp assets/auto_run.command /Volumes/bacon/Users/pivotal/bin/'")
 
-Util.reboot_to("/Volumes/bacon")
+reboot_to("/Volumes/bacon")
 
-Util.disappear_reappear
+disappear_reappear

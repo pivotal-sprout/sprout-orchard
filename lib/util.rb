@@ -28,10 +28,11 @@ module Util
       end
     end
   end
-end
-
-def system!(cmd)
-  if ! system(cmd)
-    raise "#{cmd}: #{$?.exitstatus}"
+  
+  def system!(cmd)
+    if ! system(cmd)
+      raise "#{cmd}: #{$?.exitstatus}"
+    end
   end
 end
+
