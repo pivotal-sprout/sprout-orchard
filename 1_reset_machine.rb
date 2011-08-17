@@ -1,27 +1,12 @@
 #!/usr/bin/env ruby
+require File.join(File.base_dir(__FILE__), "lib/util.rb")
 
-def on_persistent?
-  system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 '[[ -d /Volumes/bacon ]]'")
-end
-
-def reboot_to(volume)
-  puts("rebooting to #{volume}")
-  system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo bless --mount #{volume} --setboot'")
-  system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo shutdown -r now'")
-end
-
-unless on_persistent?
-  reboot_to("/Volumes/Persistent")
+unless Util.on_persistent?
+  Util.reboot_to("/Volumes/Persistent")
   Timeout::timeout(120) do
-    until on_persistent?
+    until Util.on_persistent?
       sleep 1
     end   
-  end
-end
-
-def system!(cmd)
-  if ! system(cmd)
-    raise "#{cmd}: #{$?.exitstatus}"
   end
 end
 
@@ -35,20 +20,6 @@ system!("ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdiutil attach /dev/disk0
 system!("ssh pivotal@bacon.flood.pivotallabs.com 'cp .ssh/authorized_keys2 /Volumes/bacon/Users/pivotal/.ssh/'")
 system!("ssh pivotal@bacon.flood.pivotallabs.com 'cp assets/auto_run.command /Volumes/bacon/Users/pivotal/bin/'")
 
-reboot_to("/Volumes/bacon")
+Util.reboot_to("/Volumes/bacon")
 
-# wait for machine to disappear
-Timeout::timeout(120) do
-  if system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 'true'")
-    sleep 1
-  end
-end
-
-puts "machine down"
-
-# wait for machine to reappear
-Timeout::timeout(120) do
-  until system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 'true'")
-    sleep 1
-  end
-end
+Util.disappear_reappear
