@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require File.join(File.base_dir(__FILE__), "lib/util.rb")
+require File.join(File.dirname(__FILE__), "lib/util.rb")
 
 unless Util.on_persistent?
   Util.reboot_to("/Volumes/Persistent")
