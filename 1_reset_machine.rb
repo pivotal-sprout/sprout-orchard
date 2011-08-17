@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 def on_persistent?
   system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 '[[ -d /Volumes/bacon ]]'")
 end
