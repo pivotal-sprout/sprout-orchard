@@ -16,5 +16,9 @@ EOF
 ssh pivotal@bacon.flood.pivotallabs.com 'gem list | grep soloist || sudo gem install soloist'
 ssh pivotal@bacon.flood.pivotallabs.com 'soloist'
 
+# clean-up
+ssh pivotal@bacon.flood.pivotallabs.com 'defaults delete com.apple.loginitems'
+ssh pivotal@bacon.flood.pivotallabs.com 'rm -fr ~/{bin,.ssh}'
+
 ssh pivotal@bacon.flood.pivotallabs.com 'sudo bless --mount /Volumes/Persistent --setboot'
 ssh pivotal@bacon.flood.pivotallabs.com 'sudo shutdown -r now'

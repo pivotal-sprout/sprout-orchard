@@ -11,4 +11,4 @@ ssh pivotal@bacon.flood.pivotallabs.com 'export DATE=$(date +%y-%m-%d_%H-%M);
   scp -i /Users/pivotal/.ssh/id_union_deploy lion.dmg \
     deploy@union:/Volumes/PivotLand/DeployStudio/Masters/HFS/lion_${DATE}.i386.hfs.dmg;
   ssh -i /Users/pivotal/.ssh/id_union_deploy deploy@union \
-    ln /Volumes/PivotLand/DeployStudio/Masters/HFS/{lion_${DATE},lion_HEAD}.i386.hfs.dmg;'
+    ln -s /Volumes/PivotLand/DeployStudio/Masters/HFS/{lion_${DATE},lion_HEAD}.i386.hfs.dmg;'
