@@ -2,11 +2,13 @@ require 'timeout'
 
 module Util
   def on_persistent?
-    system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 '[[ -d /Volumes/bacon ]]'")
+    # sometimes the disks aren't mounted; mount both disks to make sure
+    system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 'sudo hdid /dev/disk0s2; sudo hdid /dev/disk0s3; df | grep /Volumes/bacon'")
   end
 
   def reboot_to(volume)
     puts("rebooting to #{volume}")
+    system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdid /dev/disk0s2; sudo hdid /dev/disk0s3'")
     system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo bless --mount #{volume} --setboot'")
     system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo shutdown -r now'")
   end
@@ -28,7 +30,7 @@ module Util
       end
     end
   end
-  
+
   def system!(cmd)
     if ! system(cmd)
       raise "#{cmd}: #{$?.exitstatus}"

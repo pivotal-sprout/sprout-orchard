@@ -2,9 +2,6 @@
 require File.join(File.dirname(__FILE__), "lib/util.rb")
 include Util
 
-# sometimes the disks aren't mounted; mount both disks to make sure
-system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdid /dev/disk0s2; sudo hdid /dev/disk0s3'")
-
 unless on_persistent?
   reboot_to("/Volumes/Persistent")
   Timeout::timeout(120) do
