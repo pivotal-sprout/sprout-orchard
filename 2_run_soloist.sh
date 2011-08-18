@@ -18,7 +18,7 @@ ssh pivotal@bacon.flood.pivotallabs.com 'soloist'
 
 # clean-up
 ssh pivotal@bacon.flood.pivotallabs.com 'defaults delete com.apple.loginitems'
-ssh pivotal@bacon.flood.pivotallabs.com 'rm -fr ~/{bin,.ssh}'
+ssh pivotal@bacon.flood.pivotallabs.com 'rm -fr ~/bin'
 
 ssh pivotal@bacon.flood.pivotallabs.com 'sudo bless --mount /Volumes/Persistent --setboot'
-ssh pivotal@bacon.flood.pivotallabs.com 'sudo shutdown -r now'
+ssh pivotal@bacon.flood.pivotallabs.com 'rm -fr ~/.ssh; sudo shutdown -r now'
