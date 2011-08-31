@@ -4,6 +4,7 @@ include Util
 
 unless on_persistent?
   reboot_to("/Volumes/Persistent")
+  # You did name your other drive "bacon", didn't you?
   Timeout::timeout(120) do
     until on_persistent?
       sleep 1
