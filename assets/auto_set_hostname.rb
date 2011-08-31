@@ -44,5 +44,7 @@ end
 # plugged in when the machine is booted).
 # I use system() instead of `` so I don't have to worry about whitespace
 # in the pathnames causing the shell to mis-parse the arguments.
-system("mv",ENV['HOME'] + "/bin",ENV['HOME'] + "/.Trash")
-`defaults delete com.apple.loginitems`
+pivot_home="/Users/pivotal"
+system("mv","#{pivot_home}/bin","#{pivot_home}/.Trash")
+system("sudo","mv","/Library/LaunchAgents/com.pivotallabs.auto_set_hostname.plist","#{pivot_home}/.Trash")
+system("sudo","chown","-R","pivotal","#{pivot_home}/.Trash")
