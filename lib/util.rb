@@ -3,7 +3,7 @@ require 'timeout'
 module Util
   def on_persistent?
     # sometimes the disks aren't mounted; mount both disks to make sure
-    system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 'sudo hdid /dev/disk0s2; sudo hdid /dev/disk0s3; df | grep /Volumes/bacon'")
+    system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 'sudo hdid /dev/disk0s2; sudo hdid /dev/disk0s3; df' | grep /Volumes/bacon")
   end
 
   def reboot_to(volume)
