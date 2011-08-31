@@ -1,5 +1,0 @@
-cookbook_paths:
-- workspace
-recipes:
-- pivotal_workstation::lion_basedev
-- pivotal_workstation_private::lion_basedev
