@@ -37,3 +37,12 @@ hostnames.each do |hostname|
     `diskutil rename / #{hostname}`
   end
 end
+
+# We now remove ourselves (we only want to run once)
+# We move ourselves to .Trash instead of rm'ing in case the
+# sysadmin wants to run this script again (e.g. ethernet wasn't
+# plugged in when the machine is booted).
+# I use system() instead of `` so I don't have to worry about whitespace
+# in the pathnames causing the shell to mis-parse the arguments.
+system("mv",ENV['HOME'] + "/bin",ENV['HOME'] + "/.Trash")
+`defaults delete com.apple.loginitems`
