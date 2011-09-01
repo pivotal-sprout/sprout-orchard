@@ -15,8 +15,8 @@
 	<key>StartInterval</key>
 	<integer>0</integer>
 	<key>StandardErrorPath</key>
-	<string>/dev/null</string>
+        <string>/tmp/com.pivotallabs.auto_set_hostname.stderr</string>
 	<key>StandardOutPath</key>
-	<string>/dev/null</string>
+        <string>/tmp/com.pivotallabs.auto_set_hostname.stdout</string>
 </dict>
 </plist>
