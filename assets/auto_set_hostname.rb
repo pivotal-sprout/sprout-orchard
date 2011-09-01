@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 hostnames=[`hostname`.chop]
 
+# block until the network comes up
+`ipconfig waitall`
 require 'socket'
 `netstat -ni`.split(/\n/).each do |line|
   # we don't need the column header
