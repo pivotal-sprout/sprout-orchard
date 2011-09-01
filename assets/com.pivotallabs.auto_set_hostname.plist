@@ -14,8 +14,6 @@
         <false/>
 	<key>RunAtLoad</key>
 	<true/>
-	<key>StartInterval</key>
-	<integer>25</integer>
 	<key>StandardErrorPath</key>
         <string>/tmp/com.pivotallabs.auto_set_hostname.stderr</string>
 	<key>StandardOutPath</key>
