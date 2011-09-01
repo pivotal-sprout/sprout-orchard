@@ -3,26 +3,10 @@ hostnames=[`hostname`.chop]
 
 # block until the network comes up
 `ipconfig waitall`
-require 'socket'
-`netstat -ni`.split(/\n/).each do |line|
-  # we don't need the column header
-  next if /^Name / === line
-  # we don't care about the vmware interfaces
-  next if /^vmnet/ === line
-  # ... nor do we care about the firewire interfaces
-  next if /^fw/ === line
-  fields = line.split
-  # The address is the 4th field (fields[3])
-  # but sometimes there is NO address, which means
-  # fields[3] is sometimes the 5th field!
-  # To determine whether fields[3] is the 4th or 5th
-  # field, we see if it's an integer:
-  #   integer => 5th field (e.g. '0')
-  #   non-integer => 4th field (address, e.g. "172.17.8.5")
-  next if /^[\d]+$/ === fields[3]
-  # let's skip the mac addrs & ip6 addresses
-  next if /:/ === fields[3]
-  hostnames << Socket.gethostbyaddr(fields[3].split(/\./).collect! {|i| i.to_i }.pack('CCCC'))[0]
+real_interfaces = `netstat -ni`.split("\n").select {|line| line.match(/en.*((\d+\.){3}\d+)/) }
+host_ips = real_interfaces.collect {|line| line.match(/en.*?((\d+\.){3}\d+)/); Regexp.last_match(1) }
+host_ips.each do |ip|
+  hostnames << Socket.gethostbyaddr(ip.split(/\./).collect! {|i| i.to_i }.pack('CCCC'))[0]
 end
 
 print "hostnames: "
