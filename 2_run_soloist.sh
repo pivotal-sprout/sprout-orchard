@@ -18,7 +18,7 @@ ssh pivotal@bacon.flood.pivotallabs.com 'soloist'
 
 # post-install
 ssh pivotal@bacon.flood.pivotallabs.com 'sudo cp ~/workspace/apple_orchard/assets/com.pivotallabs.auto_set_hostname.plist  /Library/LaunchAgents/'
-ssh pivotal@bacon.flood.pivotallabs.com 'cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb ~/bin'
+ssh pivotal@bacon.flood.pivotallabs.com 'mkdir ~/bin; cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb ~/bin'
 #ssh pivotal@bacon.flood.pivotallabs.com 'rm -fr ~/bin'
 
 ssh pivotal@bacon.flood.pivotallabs.com 'sudo bless --mount /Volumes/Persistent --setboot'
