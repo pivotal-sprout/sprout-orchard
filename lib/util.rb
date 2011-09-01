@@ -8,7 +8,7 @@ module Util
 
   def reboot_to(volume)
     puts("rebooting to #{volume}")
-    system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdid /dev/disk0s2; sudo hdid /dev/disk0s3'")
+    system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdiutil attach /dev/disk0'")
     puts("Blessing #{volume}")
     system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo bless --mount #{volume} --setboot'")
     puts("shutting down")
