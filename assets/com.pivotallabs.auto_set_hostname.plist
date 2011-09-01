@@ -10,10 +10,12 @@
 	<array>
           <string>/Users/pivotal/bin/auto_set_hostname.rb</string>
 	</array>
+        <key>KeepAlive</key>
+        <false/>
 	<key>RunAtLoad</key>
 	<true/>
 	<key>StartInterval</key>
-	<integer>0</integer>
+	<integer>25</integer>
 	<key>StandardErrorPath</key>
         <string>/tmp/com.pivotallabs.auto_set_hostname.stderr</string>
 	<key>StandardOutPath</key>
