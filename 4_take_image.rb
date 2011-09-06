@@ -13,4 +13,4 @@ system("scp",__FILE__.sub(/\/[^\/]*$/,"")  + "/assets/auto_set_hostname.rb","/Vo
   scp -i /Users/pivotal/.ssh/id_union_deploy lion.dmg \
     deploy@union:/Volumes/PivotLand/DeployStudio/Masters/HFS/lion_${DATE}.i386.hfs.dmg;
   ssh -i /Users/pivotal/.ssh/id_union_deploy deploy@union \
-    ln -s /Volumes/PivotLand/DeployStudio/Masters/HFS/lion_{${DATE},HEAD}.i386.hfs.dmg;'`
+    cd /Volumes/PivotLand/DeployStudio/Masters/HFS/; ln -s lion_{${DATE},HEAD}.i386.hfs.dmg;'`
