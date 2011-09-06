@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+require 'socket'
+
 hostnames=[`hostname`.chop]
 
 # block until the network comes up
