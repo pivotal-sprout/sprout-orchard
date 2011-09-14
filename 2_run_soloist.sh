@@ -2,7 +2,7 @@
 set -e
 
 ssh pivotal@bacon.flood.pivotallabs.com 'mkdir -p ~/workspace'
-ssh pivotal@bacon.flood.pivotallabs.com 'eval `ssh-agent` && ssh-add  ~/.ssh/id_github_lion && cd workspace && git clone git@github.com:pivotal/pivotal_workstation.git && git clone git@github.com:pivotalprivate/pivotal_workstation_private.git && git clone git@github.com:pivotalexperimental/apple_orchard.git'
+ssh pivotal@bacon.flood.pivotallabs.com 'eval `ssh-agent` && ssh-add  ~/.ssh/id_github_lion && cd workspace && git clone  && git clone https://github.com/pivotal/pivotal_workstation.git && git clone git@github.com:pivotalexperimental/apple_orchard.git'
 
 ssh pivotal@bacon.flood.pivotallabs.com 'cat > soloistrc <<EOF
 cookbook_paths:
