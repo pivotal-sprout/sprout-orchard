@@ -8,8 +8,8 @@ ssh pivotal@bacon.flood.pivotallabs.com 'cat > soloistrc <<EOF
 cookbook_paths:
 - workspace
 recipes:
-- pivotal_workstation::lion_basedev
-- pivotal_workstation_private::lion_basedev
+- pivotal_workstation::meta_pivotal_lion_image
+- pivotal_workstation_private::meta_lion_image
 EOF
 '
 
