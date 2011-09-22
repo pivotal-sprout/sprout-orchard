@@ -21,6 +21,8 @@ puts "attaching disk0s2 again"
 system!("ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdiutil attach /dev/disk0s2'")
 puts "renaming restored image to 'bacon'"
 system!("ssh pivotal@bacon.flood.pivotallabs.com 'sudo diskutil renameVolume /dev/disk0s2 bacon'")
+puts "turning off spotlight on /Volumes/bacon"
+system!("ssh pivotal@bacon.flood.pivotallabs.com 'sudo mdutil -i off /Volumes/bacon'")
 puts "putting ssh-keys into place"
 system!("ssh pivotal@bacon.flood.pivotallabs.com 'cp -Rp .ssh /Volumes/bacon/Users/pivotal/'")
 puts "now putting sudoers that doesn't ask for a password'"
