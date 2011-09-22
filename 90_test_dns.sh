@@ -20,6 +20,7 @@ function _host {
 for host in google.com  \
   pivotallabs.com \
   localhost \
+  asdfasdfsdsadf \
   gateway.{boulder,sg,nyc,flood}.pivotallabs.com \
   10.64.0.1 \
   10.66.0.1 \
