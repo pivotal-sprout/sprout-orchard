@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+#
+system("ssh ci@whatscooking 'sudo shutdown -r now; exit'")
+sleep 100
+system("ssh ci@whatscooking 'curl https://raw.github.com/gist/6e7b9ed566721b738dac/c3ddbebb9ece1ac634718904428f50e9e4e52477/ci_build.sh > run.sh && chmod a+x run.sh'")
+now = Time.new.to_i;
+if now % 986 != 0
+  # copy the cache from lilac to the target
+  # to populate the cache on lilac, run the following after a *successful* run
+  # rsync -avH --delete bacon:/Volumes/bacon/var/chef/cache/ /var/chef/cache/
+  # rsync -avH --delete bacon:/Volumes/bacon/Users/pivotal/Library/Caches/Homebrew/ ~/Library/Caches/Homebrew/
+  system("ssh ci@whatscooking 'sudo mkdir -p /var/chef/cache; sudo chown ci:admin /var/chef/cache'")
+  system("rsync -avH /var/chef/cache/ ci@whatscooking:/var/chef/cache/")
+  system("rsync -avH ~/Library/Caches/Homebrew ci@whatscooking:Library/Caches/")
+end
+system("ssh ci@whatscooking './run.sh'");
