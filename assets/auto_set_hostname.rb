@@ -1,14 +1,20 @@
 #!/usr/bin/env ruby
 require 'socket'
 
-hostnames=[`hostname`.chop]
+hostname=`hostname`.chop
+hostname = hostname == "bacon" ? "NEWLY_IMAGED" : hostname
+hostnames=[hostname]
 
 # block until the network comes up
 `ipconfig waitall`
 real_interfaces = `netstat -ni`.split("\n").select {|line| line.match(/en.*((\d+\.){3}\d+)/) }
 host_ips = real_interfaces.collect {|line| line.match(/en.*?((\d+\.){3}\d+)/); Regexp.last_match(1) }
 host_ips.each do |ip|
-  hostnames << Socket.gethostbyaddr(ip.split(/\./).collect! {|i| i.to_i }.pack('CCCC'))[0]
+  begin
+    hostnames << Socket.gethostbyaddr(ip.split(/\./).collect! {|i| i.to_i }.pack('CCCC'))[0]
+  rescue SocketError
+    log "no reverse lookup for \"#{ip}\""
+  end
 end
 
 print "hostnames: "
