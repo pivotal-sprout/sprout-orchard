@@ -30,7 +30,8 @@ system!("ssh pivotal@bacon 'sudo cp {,/Volumes/bacon}/private/etc/sudoers'")
 puts "turn on sshd"
 system!("ssh pivotal@bacon 'sudo cp /etc/ssh* /Volumes/bacon/etc/; sudo defaults write /Volumes/bacon/var/db/launchd.db/com.apple.launchd/overrides.plist com.openssh.sshd -dict Disabled -bool false'")
 system!("ssh pivotal@bacon 'echo --silent > /Volumes/bacon/Users/pivotal/.curlrc'")
-now = Time.new.to_i;
+# bit-shift to increase randomness (worried polling on the minute would make modules always fail or always succeed)
+now = Time.new.to_i << 2
 if now % 3 != 0
   system("ssh pivotal@bacon 'sudo mkdir -p /Volumes/bacon/var/chef/cache; sudo chown pivotal:admin /Volumes/bacon/var/chef/cache'")
   system("rsync -aH --stats /var/chef/cache/ pivotal@bacon:/var/chef/cache/")
