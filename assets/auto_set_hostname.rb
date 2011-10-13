@@ -18,7 +18,7 @@ end
 def set_hostname(hostname)
   # The scutil commands need to run as root, unless
   # you're logged into the console, but we can't be sure of that.
-  p "Setting hostname to \"#{hostname}\""
+  puts "Setting hostname to \"#{hostname}\""
   `sudo scutil --set ComputerName #{hostname}`
   `sudo scutil --set LocalHostName #{hostname}`
   `sudo scutil --set HostName #{hostname}`
