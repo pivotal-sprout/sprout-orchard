@@ -5,6 +5,8 @@ hostnames=[`hostname`.chop]
 
 # block until the network comes up
 `ipconfig waitall`
+# let's wait a few seconds for the network interface to settle
+sleep 10
 real_interfaces = `netstat -ni`.split("\n").select {|line| line.match(/en.*((\d+\.){3}\d+)/) }
 host_ips = real_interfaces.collect {|line| line.match(/en.*?((\d+\.){3}\d+)/); Regexp.last_match(1) }
 host_ips.each do |ip|
