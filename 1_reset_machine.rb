@@ -29,7 +29,8 @@ puts "now putting sudoers that doesn't ask for a password'"
 system!("ssh pivotal@bacon 'sudo cp {,/Volumes/bacon}/private/etc/sudoers'")
 puts "turn on sshd"
 system!("ssh pivotal@bacon 'sudo cp /etc/ssh* /Volumes/bacon/etc/; sudo defaults write /Volumes/bacon/var/db/launchd.db/com.apple.launchd/overrides.plist com.openssh.sshd -dict Disabled -bool false'")
-system!("ssh pivotal@bacon 'echo --silent > /Volumes/bacon/var/root/.curlrc'")
+system!("ssh pivotal@bacon 'echo --silent > /Volumes/bacon/Users/pivotal/.curlrc'")
+system!("ssh pivotal@bacon 'echo --silent | sudo tee /Volumes/bacon/var/root/.curlrc'")
 # bit-shift to increase randomness (worried polling on the minute would make modules always fail or always succeed)
 now = Time.new.to_i << 2
 if now % 3 != 0
