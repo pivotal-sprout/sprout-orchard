@@ -2,14 +2,14 @@
 # set up one-time autorun
 
 puts "removing now-useless .curlrc"
-system("rm /Volumes/bacon/{var/root,Users/pivotal}/.curlrc")
+system("rm /Volumes/NEWLY_IMAGED/{var/root,Users/pivotal}/.curlrc")
 puts "copying set-machine-name script into place"
-system("scp",__FILE__.sub(/\/[^\/]*$/,"")  + "/assets/auto_set_hostname.rb","pivotal@bacon.flood.pivotallabs.com:/Volumes/bacon/Users/pivotal/bin/auto_run.command")
+system("scp",__FILE__.sub(/\/[^\/]*$/,"")  + "/assets/auto_set_hostname.rb","pivotal@bacon.flood.pivotallabs.com:/Volumes/NEWLY_IMAGED/Users/pivotal/bin/auto_run.command")
 #set -e
 puts "clear out old lion.dmg"
-`ssh pivotal@bacon.flood.pivotallabs.com '[[ -d /Volumes/bacon ]] && [[ -f lion.dmg ]] && rm lion.dmg'`
+`ssh pivotal@bacon.flood.pivotallabs.com '[[ -d /Volumes/NEWLY_IMAGED ]] && [[ -f lion.dmg ]] && rm lion.dmg'`
 puts "create new lion.dmg"
-`ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdiutil create -srcfolder /Volumes/bacon lion.dmg'`
+`ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdiutil create -srcfolder /Volumes/NEWLY_IMAGED lion.dmg'`
 puts "imagescan new lion.dmg for restore"
 `ssh pivotal@bacon.flood.pivotallabs.com 'sudo asr imagescan --source lion.dmg'`
 puts "remove old lion_HEAD from DeployStudio Masters"
