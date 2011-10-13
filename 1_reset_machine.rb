@@ -34,7 +34,7 @@ system!("ssh pivotal@bacon 'echo --silent > /Volumes/bacon/Users/pivotal/.curlrc
 now = Time.new.to_i << 2
 if now % 3 != 0
   system("ssh pivotal@bacon 'sudo mkdir -p /Volumes/bacon/var/chef/cache; sudo chown pivotal:admin /Volumes/bacon/var/chef/cache'")
-  system("rsync -aH --stats /var/chef/cache/ pivotal@bacon:/var/chef/cache/")
+  system("rsync -aH --stats /var/chef/cache/ pivotal@bacon:/Volumes/bacon/var/chef/cache/")
   system("rsync -aH --stats ~/Library/Caches/Homebrew pivotal@bacon:/Volumes/bacon/Users/pivotal/Library/Caches/")
 end
 reboot_to("/Volumes/bacon")
