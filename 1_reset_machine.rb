@@ -29,11 +29,12 @@ puts "now putting sudoers that doesn't ask for a password'"
 system!("ssh pivotal@bacon 'sudo cp {,/Volumes/bacon}/private/etc/sudoers'")
 puts "turn on sshd"
 system!("ssh pivotal@bacon 'sudo cp /etc/ssh* /Volumes/bacon/etc/; sudo defaults write /Volumes/bacon/var/db/launchd.db/com.apple.launchd/overrides.plist com.openssh.sshd -dict Disabled -bool false'")
+system!("ssh pivotal@bacon 'echo --silent > /Volumes/bacon/Users/pivotal/.curlrc'")
 now = Time.new.to_i;
 if now % 3 != 0
   system("ssh pivotal@bacon 'sudo mkdir -p /Volumes/bacon/var/chef/cache; sudo chown pivotal:admin /Volumes/bacon/var/chef/cache'")
-  system("rsync -avH /var/chef/cache/ pivotal@bacon:/var/chef/cache/")
-  system("rsync -avH ~/Library/Caches/Homebrew pivotal@bacon:/Volumes/bacon/Users/pivotal/Library/Caches/")
+  system("rsync -aH --stats /var/chef/cache/ pivotal@bacon:/var/chef/cache/")
+  system("rsync -aH --stats ~/Library/Caches/Homebrew pivotal@bacon:/Volumes/bacon/Users/pivotal/Library/Caches/")
 end
 reboot_to("/Volumes/bacon")
 
