@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # set up one-time autorun
 
+puts "removing now-useless .curlrc"
+system("rm /Volumes/bacon/{var/root,Users/pivotal}/.curlrc")
 puts "copying set-machine-name script into place"
 system("scp",__FILE__.sub(/\/[^\/]*$/,"")  + "/assets/auto_set_hostname.rb","pivotal@bacon.flood.pivotallabs.com:/Volumes/bacon/Users/pivotal/bin/auto_run.command")
 #set -e
