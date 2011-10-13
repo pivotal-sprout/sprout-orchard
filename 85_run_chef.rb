@@ -11,7 +11,7 @@ if now % 3 != 0
   # rsync -acvH --delete ci@whatscooking:/var/chef/cache/ /var/chef/cache/
   # rsync -acvH --delete ci@whatscooking:/Users/ci/Library/Caches/Homebrew/ ~/Library/Caches/Homebrew/
   system("ssh ci@whatscooking 'sudo mkdir -p /var/chef/cache; sudo chown ci:admin /var/chef/cache'")
-  system("rsync -avH /var/chef/cache/ ci@whatscooking:/var/chef/cache/")
-  system("rsync -avH ~/Library/Caches/Homebrew ci@whatscooking:Library/Caches/")
+  system("rsync -aH --stats /var/chef/cache/ ci@whatscooking:/var/chef/cache/")
+  system("rsync -aH --stats ~/Library/Caches/Homebrew ci@whatscooking:Library/Caches/")
 end
 system("ssh ci@whatscooking './run.sh'");
