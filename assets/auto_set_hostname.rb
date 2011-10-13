@@ -33,11 +33,6 @@ hostnames.each do |hostname|
   end
 end
 
-# If our hostname is 'bacon', then rename ourselves to 'NEWLY_IMAGED'
-if `hostname`.chop == 'bacon'
-  set_hostname("NEWLY_IMAGED")
-end
-
 # We now remove ourselves (we only want to run once)
 # We move ourselves to .Trash instead of rm'ing in case the
 # sysadmin wants to run this script again (e.g. ethernet wasn't
