@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 require 'socket'
 
-hostname=`hostname`.chop
-hostname = hostname == "bacon" ? "NEWLY_IMAGED" : hostname
-hostnames=[hostname]
+hostnames=[`hostname`.chop]
 
 # block until the network comes up
 `ipconfig waitall`
@@ -13,23 +11,31 @@ host_ips.each do |ip|
   begin
     hostnames << Socket.gethostbyaddr(ip.split(/\./).collect! {|i| i.to_i }.pack('CCCC'))[0]
   rescue SocketError
-    log "no reverse lookup for \"#{ip}\""
+    p "no reverse lookup for \"#{ip}\""
   end
 end
 
-print "hostnames: "
-p hostnames
+def set_hostname(hostname)
+  # The scutil commands need to run as root, unless
+  # you're logged into the console, but we can't be sure of that.
+  p "Setting hostname to \"#{hostname}\""
+  `sudo scutil --set ComputerName #{hostname}`
+  `sudo scutil --set LocalHostName #{hostname}`
+  `sudo scutil --set HostName #{hostname}`
+  `sudo hostname #{hostname}`
+  `diskutil rename / #{hostname}`
+end
+
 hostnames.each do |hostname|
   if hostname =~ /pivotallabs.com/ and hostname !~ /^dyn-/
     hostname = hostname.gsub(/\..*/,"")
-    # The scutil commands need to run as root, unless
-    # you're logged into the console, but we can't be sure of that.
-    `sudo scutil --set ComputerName #{hostname}`
-    `sudo scutil --set LocalHostName #{hostname}`
-    `sudo scutil --set HostName #{hostname}`
-    `sudo hostname #{hostname}`
-    `diskutil rename / #{hostname}`
+    set_hostname hostname
   end
+end
+
+# If our hostname is 'bacon', then rename ourselves to 'NEWLY_IMAGED'
+if `hostname`.chop == 'bacon'
+  set_hostname("NEWLY_IMAGED")
 end
 
 # We now remove ourselves (we only want to run once)
@@ -37,6 +43,8 @@ end
 # sysadmin wants to run this script again (e.g. ethernet wasn't
 # plugged in when the machine is booted).
 pivot_home="/Users/pivotal"
-`mv #{pivot_home}/bin #{pivot_home}/.Trash`
-`sudo mv /Library/LaunchAgents/com.pivotallabs.auto_set_hostname.plist #{pivot_home}/.Trash`
-`sudo chown -R pivotal #{pivot_home}/.Trash`
+if File.exists?("/Library/LaunchAgents/com.pivotallabs.auto_set_hostname.plist")
+  `sudo mv /Library/LaunchAgents/com.pivotallabs.auto_set_hostname.plist #{pivot_home}/.Trash`
+  `mv #{pivot_home}/bin #{pivot_home}/.Trash`
+  `sudo chown -R pivotal #{pivot_home}/.Trash`
+end
