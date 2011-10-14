@@ -14,4 +14,6 @@ if now % 3 != 0
   system("rsync -aH --stats /var/chef/cache/ ci@whatscooking:/var/chef/cache/")
   system("rsync -aH --stats ~/Library/Caches/Homebrew ci@whatscooking:Library/Caches/")
 end
-system("ssh ci@whatscooking './run.sh'");
+# need to 'exec' instead of 'system' in order to exit with the exit_status of run.sh;
+# otherwise Jenkins thinks I've always succeeded.
+exec("ssh ci@whatscooking './run.sh'");
