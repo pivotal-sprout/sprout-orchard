@@ -3,8 +3,8 @@
 
 puts "removing now-useless .curlrc"
 system("rm /Volumes/NEWLY_IMAGED/{var/root,Users/pivotal}/.curlrc")
-puts "copying set-machine-name script into place"
-system("scp",__FILE__.sub(/\/[^\/]*$/,"")  + "/assets/auto_set_hostname.rb","pivotal@bacon.flood.pivotallabs.com:/Volumes/NEWLY_IMAGED/Users/pivotal/bin/auto_run.command")
+#puts "copying set-machine-name script into place"
+#system("scp",__FILE__.sub(/\/[^\/]*$/,"")  + "/assets/auto_set_hostname.rb","pivotal@bacon.flood.pivotallabs.com:/Volumes/NEWLY_IMAGED/usr/sbin/")
 #set -e
 puts "clear out old lion.dmg"
 `ssh pivotal@bacon.flood.pivotallabs.com '[[ -d /Volumes/NEWLY_IMAGED ]] && [[ -f lion.dmg ]] && rm lion.dmg'`

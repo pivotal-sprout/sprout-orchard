@@ -8,7 +8,7 @@
 	<string>LoginWindow</string>
 	<key>ProgramArguments</key>
 	<array>
-          <string>/Users/pivotal/bin/auto_set_hostname.rb</string>
+          <string>/usr/sbin/auto_set_hostname.rb</string>
 	</array>
         <key>KeepAlive</key>
         <false/>
