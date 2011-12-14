@@ -35,7 +35,7 @@ ssh pivotal@bacon.flood.pivotallabs.com 'sudo hostname NEWLY_IMAGED
   sudo diskutil rename /           NEWLY_IMAGED'
 
 ssh pivotal@bacon.flood.pivotallabs.com 'sudo cp ~/workspace/apple_orchard/assets/com.pivotallabs.auto_set_hostname.plist  /Library/LaunchAgents/'
-ssh pivotal@bacon.flood.pivotallabs.com 'mkdir ~/bin; cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
+ssh pivotal@bacon.flood.pivotallabs.com 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
 ssh pivotal@bacon.flood.pivotallabs.com 'sudo bless --mount /Volumes/Persistent --setboot'
 ssh pivotal@bacon.flood.pivotallabs.com 'rm -fr ~/.ssh; sudo shutdown -r now'
