@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-ssh pivotal@bacon.flood.pivotallabs.com 'mkdir -p ~/workspace'
-ssh pivotal@bacon.flood.pivotallabs.com 'eval `ssh-agent` && 
+ssh $IMAGER_USER@$IMAGER_HOST 'mkdir -p ~/workspace'
+ssh $IMAGER_USER@$IMAGER_HOST 'eval `ssh-agent` && 
   ssh-add  ~/.ssh/id_github_lion && 
   cd workspace && 
   git clone https://github.com/pivotal/pivotal_workstation.git && 
@@ -15,7 +15,7 @@ ssh pivotal@bacon.flood.pivotallabs.com 'eval `ssh-agent` &&
   popd &&
   git clone git@github.com:pivotalexperimental/apple_orchard.git'
 
-ssh pivotal@bacon.flood.pivotallabs.com 'cat > soloistrc <<EOF
+ssh $IMAGER_USER@$IMAGER_HOST 'cat > soloistrc <<EOF
 cookbook_paths:
 - workspace
 recipes:
@@ -24,18 +24,18 @@ recipes:
 EOF
 '
 
-ssh pivotal@bacon.flood.pivotallabs.com 'gem list | grep soloist || sudo gem install soloist'
-ssh pivotal@bacon.flood.pivotallabs.com 'soloist'
+ssh $IMAGER_USER@$IMAGER_HOST 'gem list | grep soloist || sudo gem install soloist'
+ssh $IMAGER_USER@$IMAGER_HOST 'soloist'
 
 # post-install, set the machine name to NEWLY_IMAGED
-ssh pivotal@bacon.flood.pivotallabs.com 'sudo hostname NEWLY_IMAGED
+ssh $IMAGER_USER@$IMAGER_HOST 'sudo hostname NEWLY_IMAGED
   sudo scutil --set ComputerName   NEWLY_IMAGED
   sudo scutil --set LocalHostName  NEWLY_IMAGED
   sudo scutil --set HostName       NEWLY_IMAGED
   sudo diskutil rename /           NEWLY_IMAGED'
 
-ssh pivotal@bacon.flood.pivotallabs.com 'sudo cp ~/workspace/apple_orchard/assets/com.pivotallabs.auto_set_hostname.plist  /Library/LaunchAgents/'
-ssh pivotal@bacon.flood.pivotallabs.com 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
+ssh $IMAGER_USER@$IMAGER_HOST 'sudo cp ~/workspace/apple_orchard/assets/com.pivotallabs.auto_set_hostname.plist  /Library/LaunchAgents/'
+ssh $IMAGER_USER@$IMAGER_HOST 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
-ssh pivotal@bacon.flood.pivotallabs.com 'sudo bless --mount /Volumes/Persistent --setboot'
-ssh pivotal@bacon.flood.pivotallabs.com 'rm -fr ~/.ssh; sudo shutdown -r now'
+ssh $IMAGER_USER@$IMAGER_HOST 'sudo bless --mount /Volumes/Persistent --setboot'
+ssh $IMAGER_USER@$IMAGER_HOST 'rm -fr ~/.ssh; sudo shutdown -r now'
