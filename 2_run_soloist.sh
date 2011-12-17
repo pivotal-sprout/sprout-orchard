@@ -6,7 +6,7 @@ ssh $IMAGER_USER@$IMAGER_HOST 'eval `ssh-agent` &&
   ssh-add  ~/.ssh/id_github_lion && 
   cd workspace && 
   git clone https://github.com/pivotal/pivotal_workstation.git && 
-  pushd /pivotal_workstation &&
+  pushd pivotal_workstation &&
   git remote set-url origin https://github.com/pivotal/pivotal_workstation.git &&
   popd
   git clone git@github.com:pivotalprivate/pivotal_workstation_private.git && 

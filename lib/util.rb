@@ -2,7 +2,7 @@
   raise "ENV['#{env_variable}'] is not set!" if ENV[env_variable].nil?
 end
 
-# export IMAGE_DIR=/Volumes/PivotLand/DeployStudio/Masters/HFS
+# export IMAGE_DIR=/Volumes/DeployStudio/Masters/HFS
 # export IMAGER_USER=pivotal
 # export IMAGER_HOST=bacon
 # export DISK_PARTITION=/dev/disk0s2
