@@ -16,7 +16,7 @@ puts "detaching"
 # don't check return code; it says it failed even when it succeeds
 system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil detach #{ENV['IMAGER_DISK_PARTITION']}'")
 puts "restoring clean image"
-system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo asr restore --buffers 1 --buffersize 32m --source #{image_dir}/lion_mostly_pristine.i386.hfs.dmg  --erase --noprompt --target #{ENV['IMAGER_DISK_PARTITION']}'")
+system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo asr restore --buffers 1 --buffersize 32m --source #{ENV['IMAGE_DIR']}/lion_mostly_pristine.i386.hfs.dmg  --erase --noprompt --target #{ENV['IMAGER_DISK_PARTITION']}'")
 puts "attaching #{ENV['IMAGER_DISK_PARTITION']} again"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil attach #{ENV['IMAGER_DISK_PARTITION']}'")
 puts "renaming restored image to 'NEWLY_IMAGED'"
