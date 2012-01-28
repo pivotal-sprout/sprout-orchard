@@ -16,22 +16,22 @@ require 'timeout'
 module Util
   def on_persistent?
     # sometimes the disks aren't mounted; mount both disks to make sure
-    system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 'sudo hdid /dev/disk0s2; sudo hdid /dev/disk0s3; df' | egrep '/Volumes/NEWLY_IMAGED|/Volumes/bacon'")
+    system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} -o ConnectTimeout=5 'sudo hdid /dev/disk0s2; sudo hdid /dev/disk0s3; df' | egrep '/Volumes/NEWLY_IMAGED|/Volumes/bacon'")
   end
 
   def reboot_to(volume)
     puts("rebooting to #{volume}")
-    system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo hdiutil attach /dev/disk0'")
+    system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil attach /dev/disk0'")
     puts("Blessing #{volume}")
-    system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo bless --mount #{volume} --setboot'")
+    system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo bless --mount #{volume} --setboot'")
     puts("shutting down")
-    system("ssh pivotal@bacon.flood.pivotallabs.com 'sudo shutdown -r now'")
+    system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo shutdown -r now'")
   end
 
   def disappear_reappear
     # wait for machine to disappear
     Timeout::timeout(120) do
-      if system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 'true'")
+      if system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} -o ConnectTimeout=5 'true'")
         sleep 1
       end
     end
@@ -40,7 +40,7 @@ module Util
 
     # wait for machine to reappear
     Timeout::timeout(120) do
-      until system("ssh pivotal@bacon.flood.pivotallabs.com -o ConnectTimeout=5 'true'")
+      until system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} -o ConnectTimeout=5 'true'")
         sleep 1
       end
     end
