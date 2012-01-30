@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 system("ssh ci@whatscooking 'sudo shutdown -r now; exit'")
-sleep 100
+sleep 120
 system("ssh ci@whatscooking 'curl https://raw.github.com/gist/6e7b9ed566721b738dac/c3ddbebb9ece1ac634718904428f50e9e4e52477/ci_build.sh > run.sh && chmod a+x run.sh'")
 # bit-shift to increase randomness (worried polling on the minute would make modules always fail or always succeed)
 now = Time.new.to_i << 2
