@@ -35,13 +35,8 @@ hostnames.each do |hostname|
   end
 end
 
-# We now remove ourselves (we only want to run once)
-# We move ourselves to .Trash instead of rm'ing in case the
-# sysadmin wants to run this script again (e.g. ethernet wasn't
-# plugged in when the machine is booted).
-pivot_home="/Users/pivotal"
+# We auto_set our hostname the FIRST time we boot; to prevent us from
+# setting the hostname every time we boot, we remove the plist file.
 if File.exists?("/Library/LaunchAgents/com.pivotallabs.auto_set_hostname.plist")
-  `sudo mv /Library/LaunchAgents/com.pivotallabs.auto_set_hostname.plist #{pivot_home}/.Trash`
-  `mv #{pivot_home}/bin #{pivot_home}/.Trash`
-  `sudo chown -R pivotal #{pivot_home}/.Trash`
+  `sudo mv /Library/LaunchAgents/com.pivotallabs.auto_set_hostname.plist /tmp/`
 end
