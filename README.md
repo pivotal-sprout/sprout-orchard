@@ -67,7 +67,12 @@ These instructions were tested under OS X Lion and Xcode 4.3.
  1. Select **Command Line Tools**; click **Install**
  1. Enter your [Apple Developer](https://developer.apple.com/) credentials; uncheck **Remember this password**.
  1. Press **Cmd-Q** to quit Xcode.
-
+ 
+ 1. Bring up a terminal; type the following:
+<code>
+xcode-select -switch /Applications/Xcode.app/Contents/Developer
+xcodebuild # agree to license
+</code>
  1. Click **Apple Icon** &rarr; **Restart**; click **Restart**
  1. Hold down the **Option** key while rebooting.
  1. Select the DeployStudio Netboot.  You have set up a DeployStudio NetBoot server, haven't you?
