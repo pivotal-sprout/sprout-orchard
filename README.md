@@ -6,16 +6,15 @@ We image OSX machines to use in conjunction with
 workstations.
 
 # How do I set it up?
-These instructions were tested under OS X Lion and Xcode 4.3.
+These instructions were tested under OS X Lion and Xcode 4.3.1
 
  1. get a workstation.
  1. Use System Preferences to partition it into 2 partions (Partition Map Scheme: GUID Partition Table; Format: Mac OS Extended (Journaled))
  1. name the first one after the hostname (e.g. "**_bacon_**")
  1. name the second one "**NEWLY_IMAGED**"
  1. Load the OS onto the first partition.
- 1. Load the OS onto the second partition.
  1. Boot from a Lion Install USB drive
- 1. Choose **Disk Utility**
+ 1. Choose **Disk Utility**; click **Continue**
  1. Select the "**NEWLY_IMAGED**" partition in the navbar on the left.
  1. Click the **Erase** tab.
  1. Click the **Erase...** button.
@@ -38,7 +37,7 @@ These instructions were tested under OS X Lion and Xcode 4.3.
   1. Review your Registration; click **Continue**
  
  1. Fill out the **Create Your Computer Account**
-  1. Full Name: e.g. ***Pivotal User***
+  1. Full Name: e.g. ***pivotal***
   1. Account Name:  e.g. ***pivotal***
   1. Password:  e.g. ***loves2dance***
   1. Verify:  e.g. ***loves2dance***
@@ -55,13 +54,22 @@ These instructions were tested under OS X Lion and Xcode 4.3.
   1. Scroll to the bottom of the text and click **Start using Mac OS X Lion**.
  
  1. Log in as user
+ 1. Bring up a terminal
+ 1. Type **curl -LO https://github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg**
+ 1. Type **sudo installer -package *.pkg -target /**
+ 1. Type in your password
  1. Click on the **App Store** icon in the dock.
  1. Type **Xcode** in the search bar; press **return**.
  1. Click on the gray **Free** button in Xcode.  It will turn into a green **Install App** button; click that.
  1. Click on the Xcode Icon
+ 1. Click **Continue** to the change in terms and conditions
+ 1. Check **I have read and agree too...**
+ 1. Click **Agree**
+ 1. Click on the gray **Free** button in Xcode (yes, click it again).  It will turn into a green **Install App** button; click that. Wait several minutes for download & install to complete.
+ 1. Click on the Xcode Icon
  1. Click **Agree** (to the license).
  1. Click **Install** (to the component installation)
- 1. Type in your password; click **Install Software**
+ 1. Type in your password; click **Install Software**.
  1. Click **Start Using Xcode**
  1. Click **Xcode** &rarr; **Preferences** &rarr; **Downloads** &rarr; **Components**
  1. Select **Command Line Tools**; click **Install**
