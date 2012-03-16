@@ -78,8 +78,7 @@ These instructions were tested under OS X Lion and Xcode 4.3.1
  
  1. Bring up a terminal; type the following:
 <code>
-xcode-select -switch /Applications/Xcode.app/Contents/Developer
-xcodebuild # agree to license
+sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 </code>
  1. Click **Apple Icon** &rarr; **Restart**; click **Restart**
  1. Hold down the **Option** key while rebooting.
@@ -90,7 +89,7 @@ xcodebuild # agree to license
   1. Click **Create a master from a volume**
   1. Press the **Play** button (looks like an arrow).
   1. On the Hard Drive dropdown, select **NEWLY_IMAGED**
-  1. Image name, e.g. ***10.7.3_4.3_12.02.23_23.21***
+  1. Image name, e.g. ***10.7.3_4.3.1_12.03.16_23.21***
   1. Press the **Play** button (looks like an arrow).
   1. When it's finished, you'll need to create a symbolic link on the DeployStudio server, in the Masters/HFS subdirectory, e.g.<br />ln -s 10.7.3&#95;4.3&#95;12.02.23&#95;23.30.i386.hfs.dmg lion&#95;mostly&#95;pristine.i386.hfs.dmg
   1. The machine will reboot when it has finished.
