@@ -1,8 +1,12 @@
 #!/usr/bin/env ruby
 # set up one-time autorun
 
+date=`date +%Y-%m-%d_%H-%M`.chop
+
 puts "removing now-useless .curlrc"
-system("rm /Volumes/NEWLY_IMAGED/{var/root,Users/#{ENV['IMAGER_USER']}}/.curlrc")
+system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'rm /Volumes/NEWLY_IMAGED/{var/root,Users/#{ENV['IMAGER_USER']}}/.curlrc'")
+puts "Setting Pivotal Workstation release date"
+system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'echo #{date} > /Volumes/NEWLY_IMAGED/etc/pivotal_workstation_release'")
 puts "clear out old lion.dmg"
 system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} '[[ -d /Volumes/NEWLY_IMAGED ]] && [[ -f lion.dmg ]] && rm lion.dmg'")
 puts "create new lion.dmg"
@@ -15,7 +19,6 @@ unless ENV['DEPLOYSTUDIO_SSH_KEYFILE'].nil? || ENV['DEPLOYSTUDIO_DESTDIR'].nil? 
   system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'ssh -i #{ENV['DEPLOYSTUDIO_SSH_KEYFILE']} #{ENV['DEPLOYSTUDIO_USER_HOST']} rm #{ENV['DEPLOYSTUDIO_DESTDIR']}/lion_HEAD.i386.hfs.dmg'")
   puts "remove all but the two most recent snapshots"
   system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'ssh -i /Users/#{ENV['IMAGER_USER']}/.ssh/id_union_deploy #{ENV['DEPLOYSTUDIO_USER_HOST']} \"/bin/ls -cr  #{ENV['DEPLOYSTUDIO_DESTDIR']}/lion_[0-9]*1[1-9]-*.i386.hfs.dmg | tail -n +2 | xargs rm\"'")
-  date=`date +%Y-%m-%d_%H-%M`.chop
   puts "copy the new timestamped image & link to lion_HEAD"
   system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} ' scp -i /Users/#{ENV['IMAGER_USER']}/.ssh/id_union_deploy lion.dmg \
     #{ENV['DEPLOYSTUDIO_USER_HOST']}:#{ENV['DEPLOYSTUDIO_DESTDIR']}/lion_#{date}.i386.hfs.dmg;
