@@ -4,9 +4,9 @@
 date=`date +%Y-%m-%d_%H-%M`.chop
 
 puts "removing now-useless .curlrc"
-system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'rm /Volumes/NEWLY_IMAGED/{var/root,Users/#{ENV['IMAGER_USER']}}/.curlrc'")
+system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo rm /Volumes/NEWLY_IMAGED/{var/root,Users/#{ENV['IMAGER_USER']}}/.curlrc'")
 puts "Setting Pivotal Workstation release date"
-system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'echo #{date} > /Volumes/NEWLY_IMAGED/etc/pivotal_workstation_release'")
+system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'echo #{date} | sudo tee /Volumes/NEWLY_IMAGED/etc/pivotal_workstation_release'")
 puts "clear out old lion.dmg"
 system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} '[[ -d /Volumes/NEWLY_IMAGED ]] && [[ -f lion.dmg ]] && rm lion.dmg'")
 puts "create new lion.dmg"
