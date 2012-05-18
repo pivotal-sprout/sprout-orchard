@@ -1,0 +1,5 @@
+cookbook_paths:
+- ./cookbooks
+recipes:
+- pivotal_workstation::meta_pivotal_lion_image
+- pivotal_workstation_private::meta_lion_image

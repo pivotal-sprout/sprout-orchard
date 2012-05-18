@@ -2,7 +2,7 @@
 #
 system("ssh ci@whatscooking 'sudo shutdown -r now; exit'")
 sleep 120
-system("ssh ci@whatscooking 'curl https://raw.github.com/gist/6e7b9ed566721b738dac/c3ddbebb9ece1ac634718904428f50e9e4e52477/ci_build.sh > run.sh && chmod a+x run.sh'")
+system("scp assets/{ci_build.sh,soloistrc} ci@whatscooking:")
 # bit-shift to increase randomness (worried polling on the minute would make modules always fail or always succeed)
 now = Time.new.to_i << 2
 if now % 3 != 0
@@ -16,4 +16,4 @@ if now % 3 != 0
 end
 # need to 'exec' instead of 'system' in order to exit with the exit_status of run.sh;
 # otherwise Jenkins thinks I've always succeeded.
-exec("ssh ci@whatscooking './run.sh'");
+exec("ssh ci@whatscooking './ci_build.sh'");
