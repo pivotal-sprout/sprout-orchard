@@ -24,6 +24,7 @@ recipes:
 EOF
 '
 
+ssh $IMAGER_USER@$IMAGER_HOST 'gem list | grep chef || sudo gem install chef --version 0.10.8'
 ssh $IMAGER_USER@$IMAGER_HOST 'gem list | grep soloist || sudo gem install soloist'
 ssh $IMAGER_USER@$IMAGER_HOST 'soloist'
 

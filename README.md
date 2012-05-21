@@ -80,6 +80,9 @@ These instructions were tested under OS X Lion and Xcode 4.3.1
 <code>
 sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 </code>
+
+ 1. Bring up **Address Book**; remove the entry corresponding to the Appstore user (otherwise Chrome will use that information to pre-populate address fields)
+
  1. Click **Apple Icon** &rarr; **Restart**; click **Restart**
  1. Hold down the **Option** key while rebooting.
  1. Select the DeployStudio Netboot.  You have set up a DeployStudio NetBoot server, haven't you?
