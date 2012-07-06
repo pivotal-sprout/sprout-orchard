@@ -39,7 +39,7 @@ now = Time.new.to_i << 2
 if now % 3 != 0
   system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo mkdir -p /Volumes/NEWLY_IMAGED/var/chef/cache; sudo chown #{ENV['IMAGER_USER']}:admin /Volumes/NEWLY_IMAGED/var/chef/cache'")
   system("rsync -aH --stats /var/chef/cache/ #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']}:/Volumes/NEWLY_IMAGED/var/chef/cache/")
-  system("rsync -aH --stats ~/Library/Caches/Homebrew #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']}:/Volumes/NEWLY_IMAGED/Users/#{ENV['IMAGER_USER']}/Library/Caches/")
+  system("rsync -aH --stats /Library/Caches/Homebrew #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']}:/Volumes/NEWLY_IMAGED/Library/Caches/")
 end
 reboot_to("/Volumes/NEWLY_IMAGED")
 
