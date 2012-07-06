@@ -10,6 +10,14 @@ workstations with up-to-date images of the latest developer tools.
 
 If you're interested in setting it up yourself, please refer to our [Installation and Setup](https://github.com/pivotalexperimental/apple_orchard/wiki/Installation-and-Setup)
 
+## What will I need
+
+You'll need the following:
+
+1.  A DeployStudio server
+2.  A Jenkins server (can also be the same machine as the DeployStudio server)
+3.  An OS X build machine (work-in-progress: making it a virtual machine)
+
 ## What do I need?
 
 You'll need a [Jenkins](http://jenkins-ci.org/) server and an OS X machine with two partitions, each big enough to hold a complete OS (30GB each partition); we are currently experimenting running the OS X machine under VMWare Fusion.
