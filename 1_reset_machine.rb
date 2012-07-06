@@ -2,6 +2,11 @@
 require File.join(File.dirname(__FILE__), "lib/util.rb")
 include Util
 
+puts "determining imaging partition"
+newly_imaged_partition = `ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
+persistent_partition = `ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} diskutil list`.each_line.map {|line| line =~ /Persistent/ && "/dev/"+line.split[5] }.compact.first
+exit 1 if !newly_imaged_partition or !persistent_partition
+
 unless on_persistent?
   reboot_to("/Volumes/Persistent")
   # You did name your other drive "NEWLY_IMAGED", didn't you?
@@ -11,11 +16,6 @@ unless on_persistent?
     end
   end
 end
-
-puts "determining imaging partition"
-newly_imaged_partition = `ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
-persistent_partition = `ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} diskutil list`.each_line.map {|line| line =~ /Persistent/ && "/dev/"+line.split[5] }.compact.first
-exit 1 if !newly_imaged_partition
 
 puts "detaching (unmounting) #{newly_imaged_partition} imaging partition"
 # ignore spurious 'hdiutil: couldn't unmount "disk0" - Resource busy' messages
