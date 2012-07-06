@@ -1,4 +1,4 @@
-Apple Orchard: Scripts (bash & ruby) to support imaging of OSX machines
+Apple Orchard: Scripts (bash & ruby), using Jenkins and DeployStudio to support imaging of OSX machines
 
 ## Why?
 
