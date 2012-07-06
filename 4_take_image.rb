@@ -15,13 +15,15 @@ puts "imagescan new lion.dmg for restore"
 system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo asr imagescan --allowfragmentedcatalog --source lion.dmg'")
 puts "remove old lion_HEAD from DeployStudio Masters"
 
+# FIXME: This is tortured (jenkins ssh-ing to build-machine to ssh to DeployStudio).  Maybe using a share with
+# correct permissions?
 unless ENV['DEPLOYSTUDIO_SSH_KEYFILE'].nil? || ENV['DEPLOYSTUDIO_DESTDIR'].nil? || ENV['DEPLOYSTUDIO_USER_HOST'].nil?
   system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'ssh -i #{ENV['DEPLOYSTUDIO_SSH_KEYFILE']} #{ENV['DEPLOYSTUDIO_USER_HOST']} rm #{ENV['DEPLOYSTUDIO_DESTDIR']}/lion_HEAD.i386.hfs.dmg'")
   puts "remove all but the two most recent snapshots"
-  system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'ssh -i /Users/#{ENV['IMAGER_USER']}/.ssh/id_union_deploy #{ENV['DEPLOYSTUDIO_USER_HOST']} \"/bin/ls -cr  #{ENV['DEPLOYSTUDIO_DESTDIR']}/lion_[0-9]*1[1-9]-*.i386.hfs.dmg | tail -n +2 | xargs rm\"'")
+  system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'ssh -i #{ENV['DEPLOYSTUDIO_SSH_KEYFILE']} #{ENV['DEPLOYSTUDIO_USER_HOST']} \"/bin/ls -cr  #{ENV['DEPLOYSTUDIO_DESTDIR']}/lion_[0-9]*1[1-9]-*.i386.hfs.dmg | tail -n +2 | xargs rm\"'")
   puts "copy the new timestamped image & link to lion_HEAD"
-  system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} ' scp -i /Users/#{ENV['IMAGER_USER']}/.ssh/id_union_deploy lion.dmg \
+  system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} ' scp -i #{ENV['DEPLOYSTUDIO_SSH_KEYFILE']} lion.dmg \
     #{ENV['DEPLOYSTUDIO_USER_HOST']}:#{ENV['DEPLOYSTUDIO_DESTDIR']}/lion_#{date}.i386.hfs.dmg;
-    ssh -i /Users/#{ENV['IMAGER_USER']}/.ssh/id_union_deploy #{ENV['DEPLOYSTUDIO_USER_HOST']} \
+    ssh -i #{ENV['DEPLOYSTUDIO_SSH_KEYFILE']} #{ENV['DEPLOYSTUDIO_USER_HOST']} \
     \"cd #{ENV['DEPLOYSTUDIO_DESTDIR']}/; ln -s lion_{#{date},HEAD}.i386.hfs.dmg;\"'")
 end
