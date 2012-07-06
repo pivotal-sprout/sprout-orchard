@@ -13,7 +13,7 @@ unless on_persistent?
 end
 
 puts "determining imaging partition"
-disk_partition = `diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
+disk_partition = `ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
 exit 1 if !disk_partition
 puts "detaching (unmounting) #{disk_partition} imaging partition"
 # ignore spurious 'hdiutil: couldn't unmount "disk0" - Resource busy' messages
