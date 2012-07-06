@@ -12,15 +12,16 @@ unless on_persistent?
   end
 end
 
-puts "detaching"
-# don't check return code; it says it failed even when it succeeds
-system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil detach #{ENV['DISK_PARTITION']}'")
+puts "determining imaging partition"
+disk_partition = `diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
+exit 1 if !disk_partition
+system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil detach #{disk_partition}'")
 puts "restoring clean image"
-system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo asr restore --buffers 1 --buffersize 32m --source #{ENV['IMAGE_DIR']}/lion_mostly_pristine.i386.hfs.dmg  --erase --noprompt --target #{ENV['DISK_PARTITION']}'")
-puts "attaching #{ENV['DISK_PARTITION']} again"
-system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil attach #{ENV['DISK_PARTITION']}'")
+system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo asr restore --buffers 1 --buffersize 32m --source #{ENV['IMAGE_DIR']}/lion_mostly_pristine.i386.hfs.dmg  --erase --noprompt --target #{disk_partition}'")
+puts "attaching #{disk_partition} again"
+system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil attach #{disk_partition}'")
 puts "renaming restored image to 'NEWLY_IMAGED'"
-system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo diskutil renameVolume #{ENV['DISK_PARTITION']} NEWLY_IMAGED'")
+system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo diskutil renameVolume #{disk_partition} NEWLY_IMAGED'")
 puts "turning off spotlight on /Volumes/NEWLY_IMAGED"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo mdutil -i off /Volumes/NEWLY_IMAGED'")
 puts "putting ssh-keys into place"
