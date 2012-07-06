@@ -15,10 +15,12 @@ end
 puts "determining imaging partition"
 disk_partition = `diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
 exit 1 if !disk_partition
+puts "detaching (unmounting) #{disk_partition} imaging partition"
+# ignore spurious 'hdiutil: couldn't unmount "disk0" - Resource busy' messages
 system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil detach #{disk_partition}'")
 puts "restoring clean image"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo asr restore --buffers 1 --buffersize 32m --source #{ENV['IMAGE_DIR']}/lion_mostly_pristine.i386.hfs.dmg  --erase --noprompt --target #{disk_partition}'")
-puts "attaching #{disk_partition} again"
+puts "attaching (mounting) #{disk_partition} again"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil attach #{disk_partition}'")
 puts "renaming restored image to 'NEWLY_IMAGED'"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo diskutil renameVolume #{disk_partition} NEWLY_IMAGED'")
