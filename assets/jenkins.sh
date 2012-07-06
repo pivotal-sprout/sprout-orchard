@@ -16,7 +16,7 @@ export IMAGER_HOST=bacon-vm
 # to ssh into this machine (i.e. "ssh $IMAGER_USER@$IMAGER_HOST" from the
 # Jenkins machine (i.e. sshd should be running & not be blocked by firewall
 # rules).
-export DEPLOYSTUDIO_SSH_KEYFILE=/Users/pivotal/.ssh/id_union_deploy
+export DEPLOYSTUDIO_SSH_KEYFILE=/Users/pivotal/.ssh/id_apple_orchard
 # DEPLOYSTUDIO_SSH_KEYFILE is the ssh keyfile that the OS X build machine uses
 # to connect to the DeployStudio machine 
 export DEPLOYSTUDIO_DESTDIR=/Volumes/PivotLand/DeployStudio/Masters/HFS
