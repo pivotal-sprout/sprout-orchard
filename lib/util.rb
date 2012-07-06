@@ -14,7 +14,7 @@ require 'timeout'
 module Util
   def on_persistent?
     # sometimes the disks aren't mounted; mount both disks to make sure
-    system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} -o ConnectTimeout=5 'sudo hdid /dev/disk0s2; sudo hdid /dev/disk0s3; df' | egrep '/Volumes/NEWLY_IMAGED|/Volumes/bacon'")
+    system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} -o ConnectTimeout=5 'sudo hdid #{persistent_partition}; sudo hdid #{newly_imaged_partition}; df' | egrep '/Volumes/NEWLY_IMAGED|/Volumes/Persistent'")
   end
 
   def reboot_to(volume)
