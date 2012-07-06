@@ -11,7 +11,7 @@ export IMAGER_USER=pivotal
 # ssh in to the OS X build machine as this user without a password, so make
 # sure you have set up your ssh keys beforehand.  Also, this user needs to be
 # able to run sudo without a password. 
-export IMAGER_HOST=bacon
+export IMAGER_HOST=bacon-vm
 # IMAGER_HOST is the name of the OS X build machine.  Jenkins needs to be able
 # to ssh into this machine (i.e. "ssh $IMAGER_USER@$IMAGER_HOST" from the
 # Jenkins machine (i.e. sshd should be running & not be blocked by firewall
