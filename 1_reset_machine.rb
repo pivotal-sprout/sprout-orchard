@@ -3,9 +3,9 @@ require File.join(File.dirname(__FILE__), "lib/util.rb")
 include Util
 
 puts "determining imaging partition"
-newly_imaged_partition = `ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
-persistent_partition = `ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} diskutil list`.each_line.map {|line| line =~ /Persistent/ && "/dev/"+line.split[5] }.compact.first
-exit 1 if !newly_imaged_partition or !persistent_partition
+$newly_imaged_partition = `ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
+$persistent_partition = `ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} diskutil list`.each_line.map {|line| line =~ /Persistent/ && "/dev/"+line.split[5] }.compact.first
+exit 1 if !$newly_imaged_partition or !$persistent_partition
 
 unless on_persistent?
   reboot_to("/Volumes/Persistent")
@@ -17,15 +17,15 @@ unless on_persistent?
   end
 end
 
-puts "detaching (unmounting) #{newly_imaged_partition} imaging partition"
+puts "detaching (unmounting) #{$newly_imaged_partition} imaging partition"
 # ignore spurious 'hdiutil: couldn't unmount "disk0" - Resource busy' messages
-system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil detach #{newly_imaged_partition}'")
+system("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil detach #{$newly_imaged_partition}'")
 puts "restoring clean image"
-system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo asr restore --buffers 1 --buffersize 32m --source #{ENV['IMAGE_DIR']}/lion_mostly_pristine.i386.hfs.dmg  --erase --noprompt --target #{newly_imaged_partition}'")
-puts "attaching (mounting) #{newly_imaged_partition} again"
-system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil attach #{newly_imaged_partition}'")
+system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo asr restore --buffers 1 --buffersize 32m --source #{ENV['IMAGE_DIR']}/lion_mostly_pristine.i386.hfs.dmg  --erase --noprompt --target #{$newly_imaged_partition}'")
+puts "attaching (mounting) #{$newly_imaged_partition} again"
+system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo hdiutil attach #{$newly_imaged_partition}'")
 puts "renaming restored image to 'NEWLY_IMAGED'"
-system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo diskutil renameVolume #{newly_imaged_partition} NEWLY_IMAGED'")
+system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo diskutil renameVolume #{$newly_imaged_partition} NEWLY_IMAGED'")
 puts "turning off spotlight on /Volumes/NEWLY_IMAGED"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo mdutil -i off /Volumes/NEWLY_IMAGED'")
 puts "putting ssh-keys into place"
