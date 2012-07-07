@@ -27,6 +27,9 @@ export DEPLOYSTUDIO_USER_HOST=deploy@union
 # to the DeployStudio server with a userid with appropriate permissions 
 # to cp/mv/rm master images.  The OS X build server should be able to
 # "ssh -i $DEPLOYSTUDIO_SSH_KEYFILE $DEPLOYSTUDIO_USER_HOST ls $DEPLOYSTUDIO_DESTDIR"
+export PIVOTAL_LABS=1
+# You want to set this to zero, unless you're setting this up within Pivotal
+# Labs.
 echo "=========================="
 echo "RESETTING MACHINE"
 echo "=========================="
