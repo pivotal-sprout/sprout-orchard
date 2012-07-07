@@ -30,7 +30,7 @@ puts "turning off spotlight on /Volumes/NEWLY_IMAGED"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo mdutil -i off /Volumes/NEWLY_IMAGED'")
 puts "putting ssh-keys into place"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'cp -Rp .ssh /Volumes/NEWLY_IMAGED/Users/#{ENV['IMAGER_USER']}/'")
-puts "now putting sudoers that doesn't ask for a password'"
+puts "now putting sudoers that doesn't ask for a password"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo cp {,/Volumes/NEWLY_IMAGED}/private/etc/sudoers'")
 puts "turn on sshd"
 system!("ssh #{ENV['IMAGER_USER']}@#{ENV['IMAGER_HOST']} 'sudo cp /etc/ssh* /Volumes/NEWLY_IMAGED/etc/; sudo defaults write /Volumes/NEWLY_IMAGED/var/db/launchd.db/com.apple.launchd/overrides.plist com.openssh.sshd -dict Disabled -bool false'")
