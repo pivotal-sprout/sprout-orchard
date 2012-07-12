@@ -23,7 +23,7 @@ EOF
 if [[ $PIVOTAL_LABS ]]; then
   ssh $IMAGER_USER@$IMAGER_HOST 'eval `ssh-agent` && 
     ssh-add  ~/.ssh/id_github_lion && 
-    pushd cookbooks && 
+    ( ssh -o StrictHostKeyChecking=no git@github.com ls; pushd cookbooks ) && 
     git clone git@github.com:pivotalprivate/pivotal_workstation_private.git && 
     pushd pivotal_workstation_private &&
     git remote set-url origin https://pivotalcommon@github.com/pivotalprivate/pivotal_workstation_private.git &&
