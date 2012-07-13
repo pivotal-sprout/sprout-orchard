@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-ssh $IMAGER_USER@$IMAGER_HOST 'mkdir -p ~/cookbooks; mkdir -p ~/workspace'
-ssh $IMAGER_USER@$IMAGER_HOST 'cd cookbooks &&
+ssh $IMAGE_USER@$IMAGE_HOST 'mkdir -p ~/cookbooks; mkdir -p ~/workspace'
+ssh $IMAGE_USER@$IMAGE_HOST 'cd cookbooks &&
   git clone https://github.com/pivotal/pivotal_workstation.git && 
   cd ~/workspace &&
   git clone https://github.com/pivotalexperimental/apple_orchard.git'
 
 
-ssh $IMAGER_USER@$IMAGER_HOST 'cat > soloistrc <<EOF
+ssh $IMAGE_USER@$IMAGE_HOST 'cat > soloistrc <<EOF
 cookbook_paths:
 - cookbooks
 recipes:
@@ -21,7 +21,7 @@ EOF
 '
 
 if [[ $PIVOTAL_LABS ]]; then
-  ssh $IMAGER_USER@$IMAGER_HOST 'eval `ssh-agent` && 
+  ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` && 
     ssh-add  ~/.ssh/id_github_lion && 
     pushd cookbooks &&
     ( ssh -o StrictHostKeyChecking=no git@github.com exit; : ) && 
@@ -33,19 +33,19 @@ if [[ $PIVOTAL_LABS ]]; then
     echo "- pivotal_workstation_private::meta_lion_image >> ~/soloistrc "'
 fi
 
-ssh $IMAGER_USER@$IMAGER_HOST 'gem list | grep chef || sudo gem install chef'
-ssh $IMAGER_USER@$IMAGER_HOST 'gem list | grep soloist || sudo gem install soloist'
-ssh $IMAGER_USER@$IMAGER_HOST 'soloist'
+ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep chef || sudo gem install chef'
+ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep soloist || sudo gem install soloist'
+ssh $IMAGE_USER@$IMAGE_HOST 'soloist'
 
 # post-install, set the machine name to NEWLY_IMAGED
-ssh $IMAGER_USER@$IMAGER_HOST 'sudo hostname NEWLY_IMAGED
+ssh $IMAGE_USER@$IMAGE_HOST 'sudo hostname NEWLY_IMAGED
   sudo scutil --set ComputerName   NEWLY_IMAGED
   sudo scutil --set LocalHostName  NEWLY_IMAGED
   sudo scutil --set HostName       NEWLY_IMAGED
   sudo diskutil rename /           NEWLY_IMAGED'
 
-ssh $IMAGER_USER@$IMAGER_HOST 'sudo cp ~/workspace/apple_orchard/assets/com.pivotallabs.auto_set_hostname.plist  /Library/LaunchAgents/'
-ssh $IMAGER_USER@$IMAGER_HOST 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
+ssh $IMAGE_USER@$IMAGE_HOST 'sudo cp ~/workspace/apple_orchard/assets/com.pivotallabs.auto_set_hostname.plist  /Library/LaunchAgents/'
+ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
-ssh $IMAGER_USER@$IMAGER_HOST 'sudo bless --mount /Volumes/Persistent --setboot'
-ssh $IMAGER_USER@$IMAGER_HOST 'rm -fr ~/.ssh; sudo shutdown -r now'
+ssh $IMAGE_USER@$IMAGE_HOST 'sudo bless --mount /Volumes/Persistent --setboot'
+ssh $IMAGE_USER@$IMAGE_HOST 'rm -fr ~/.ssh; sudo shutdown -r now'
