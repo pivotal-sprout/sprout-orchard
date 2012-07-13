@@ -18,7 +18,7 @@ export IMAGER_HOST=buildmachine-vm
 # to ssh into this machine (i.e. "ssh $IMAGER_USER@$IMAGER_HOST" from the
 # Jenkins machine (i.e. sshd should be running & not be blocked by firewall
 # rules).
-export DEPLOYSTUDIO_SSH_KEYFILE=/Users/imager/.ssh/id_apple_orchard
+export DEPLOYSTUDIO_SSH_KEYFILE=/Users/${IMAGER_USER}/.ssh/id_apple_orchard
 # DEPLOYSTUDIO_SSH_KEYFILE is the ssh keyfile that the OS X build machine uses
 # to connect to the DeployStudio machine 
 export DEPLOYSTUDIO_DESTDIR=/Volumes/PivotLand/DeployStudio/Masters/HFS
