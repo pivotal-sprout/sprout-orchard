@@ -2,12 +2,12 @@
   raise "ENV['#{env_variable}'] is not set!" if ENV[env_variable].nil?
 end
 
-image_user = ENV['IMAGE_USER'];
-image_user_at_host = image_user + '@' + ENV['IMAGE_HOST']
 
 require 'timeout'
 
 module Util
+  image_user = ENV['IMAGE_USER'];
+  image_user_at_host = image_user + '@' + ENV['IMAGE_HOST']
   def on_persistent?
     # sometimes the disks aren't mounted; mount both disks to make sure
     system("ssh #{image_user_at_host} -o ConnectTimeout=5 'sudo hdid #{$persistent_partition}; sudo hdid #{$newly_imaged_partition}; df' | grep '/Volumes/NEWLY_IMAGED'")
