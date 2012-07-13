@@ -26,8 +26,8 @@ sleep 20
 puts "detaching (unmounting) #{$newly_imaged_partition} imaging partition"
 # ignore spurious 'hdiutil: couldn't unmount "disk0" - Resource busy' messages
 system("ssh #{image_user_at_host} 'sudo hdiutil detach #{$newly_imaged_partition}'")
-puts "restoring clean image"
-system!("ssh #{image_user_at_host} 'sudo asr restore --buffers 1 --buffersize 32m --source #{ENV['IMAGE_DIR']}/${image_platform}_mostly_pristine.i386.hfs.dmg  --erase --noprompt --target #{$newly_imaged_partition}'")
+puts "restoring clean image from #{ENV['IMAGE_DIR']}/#{image_platform}_mostly_pristine.i386.hfs.dmg"
+system!("ssh #{image_user_at_host} 'sudo asr restore --buffers 1 --buffersize 32m --source #{ENV['IMAGE_DIR']}/#{image_platform}_mostly_pristine.i386.hfs.dmg  --erase --noprompt --target #{$newly_imaged_partition}'")
 puts "attaching (mounting) #{$newly_imaged_partition} again"
 system!("ssh #{image_user_at_host} 'sudo hdiutil attach #{$newly_imaged_partition}'")
 puts "renaming restored image to 'NEWLY_IMAGED'"
