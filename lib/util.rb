@@ -1,4 +1,4 @@
-['IMAGE_DIR','IMAGE_USER','IMAGE_HOST'].each do |env_variable|
+['IMAGE_USER','IMAGE_HOST'].each do |env_variable|
   raise "ENV['#{env_variable}'] is not set!" if ENV[env_variable].nil?
 end
 
@@ -6,8 +6,14 @@ end
 require 'timeout'
 
 module Util
-  image_user = ENV['IMAGE_USER'];
-  image_user_at_host = image_user + '@' + ENV['IMAGE_HOST']
+  def image_user
+    ENV['IMAGE_USER']
+  end
+
+  def image_user_at_host
+    image_user + '@' + ENV['IMAGE_HOST']
+  end
+
   def on_persistent?
     # sometimes the disks aren't mounted; mount both disks to make sure
     system("ssh #{image_user_at_host} -o ConnectTimeout=5 'sudo hdid #{$persistent_partition}; sudo hdid #{$newly_imaged_partition}; df' | grep '/Volumes/NEWLY_IMAGED'")
