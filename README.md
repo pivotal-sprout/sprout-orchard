@@ -8,7 +8,7 @@ workstations with up-to-date images of the latest developer tools.
 
 ## How do I set it up?
 
-If you're interested in setting it up yourself, please refer to our [Installation and Setup](https://github.com/pivotalexperimental/apple_orchard/wiki/Installation-and-Setup)
+If you're interested in setting it up yourself, please refer to the [wiki](https://github.com/pivotalexperimental/apple_orchard/wiki/)
 
 ## What will I need
 
