@@ -4,6 +4,8 @@ set -e
 ssh $IMAGE_USER@$IMAGE_HOST 'mkdir -p ~/cookbooks; mkdir -p ~/workspace'
 ssh $IMAGE_USER@$IMAGE_HOST 'cd cookbooks &&
   git clone https://github.com/pivotal/pivotal_workstation.git && 
+  cd pivotal_workstation &&
+  git checkout $GIT_BRANCH &&
   cd ~/workspace &&
   git clone https://github.com/pivotalexperimental/apple_orchard.git'
 
