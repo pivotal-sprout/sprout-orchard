@@ -11,6 +11,7 @@ $newly_imaged_partition = `ssh #{image_user_at_host} diskutil list`.each_line.ma
 $persistent_partition = `ssh #{image_user_at_host} diskutil list`.each_line.map {|line| line =~ /Persistent/ && "/dev/"+line.split[5] }.compact.first
 if !$newly_imaged_partition or !$persistent_partition
   puts "'diskutil list' couldn't find a partition /Volumes/NEWLY_IMAGED or /Volumes/Persistent!"
+  puts "try 'sudo diskutil rename /Volumes/blah_blah NEWLY_IMAGED' to fix"
   exit 1
 end
 
