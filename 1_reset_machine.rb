@@ -9,7 +9,10 @@ image_user_at_host = image_user + '@' + ENV['IMAGE_HOST']
 puts "determining imaging partition"
 $newly_imaged_partition = `ssh #{image_user_at_host} diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
 $persistent_partition = `ssh #{image_user_at_host} diskutil list`.each_line.map {|line| line =~ /Persistent/ && "/dev/"+line.split[5] }.compact.first
-exit 1 if !$newly_imaged_partition or !$persistent_partition
+if !$newly_imaged_partition or !$persistent_partition
+  puts "'diskutil list' couldn't find a partition /Volumes/NEWLY_IMAGED or /Volumes/Persistent!"
+  exit 1
+end
 
 unless on_persistent?
   reboot_to("/Volumes/Persistent")
