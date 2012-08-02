@@ -26,7 +26,8 @@ unless on_persistent?
 end
 
 # allow time for automated login & mounting of disks to work
-sleep 20
+# We need AT LEAST a minute for the disk to mount
+sleep 90
 puts "detaching (unmounting) #{$newly_imaged_partition} imaging partition"
 # ignore spurious 'hdiutil: couldn't unmount "disk0" - Resource busy' messages
 system("ssh #{image_user_at_host} 'sudo hdiutil detach #{$newly_imaged_partition}'")
