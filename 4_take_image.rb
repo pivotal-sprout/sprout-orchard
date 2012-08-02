@@ -21,13 +21,9 @@ puts "remove old #{image_platform}_HEAD from DeployStudio Masters"
 
 # FIXME: This is tortured (jenkins ssh-ing to build-machine to ssh to DeployStudio).  Maybe using a share with
 # correct permissions?
-unless ENV['DEPLOYSTUDIO_SSH_KEYFILE'].nil? || ENV['DEPLOYSTUDIO_DESTDIR'].nil? || ENV['DEPLOYSTUDIO_USER_HOST'].nil?
-  system("ssh #{image_user_at_host} 'ssh -i #{ENV['DEPLOYSTUDIO_SSH_KEYFILE']} #{ENV['DEPLOYSTUDIO_USER_HOST']} rm #{ENV['DEPLOYSTUDIO_DESTDIR']}/#{image_platform}_HEAD.i386.hfs.dmg'")
-  puts "remove all but the two most recent snapshots"
-  system("ssh #{image_user_at_host} 'ssh -i #{ENV['DEPLOYSTUDIO_SSH_KEYFILE']} #{ENV['DEPLOYSTUDIO_USER_HOST']} \"/bin/ls -cr  #{ENV['DEPLOYSTUDIO_DESTDIR']}/#{image_platform}_[0-9]*1[1-9]-*.i386.hfs.dmg | tail -n +2 | xargs rm\"'")
-  puts "copy the new timestamped image & link to #{image_platform}_HEAD"
-  system("ssh #{image_user_at_host} ' scp -i #{ENV['DEPLOYSTUDIO_SSH_KEYFILE']} #{image_platform}.dmg \
-    #{ENV['DEPLOYSTUDIO_USER_HOST']}:#{ENV['DEPLOYSTUDIO_DESTDIR']}/#{image_platform}_#{date}.i386.hfs.dmg;
-    ssh -i #{ENV['DEPLOYSTUDIO_SSH_KEYFILE']} #{ENV['DEPLOYSTUDIO_USER_HOST']} \
-    \"cd #{ENV['DEPLOYSTUDIO_DESTDIR']}/; ln -s #{image_platform}_{#{date},HEAD}.i386.hfs.dmg;\"'")
-end
+puts "remove the existing #{ENV['IMAGE_DIR']}/#{image_platform}_HEAD.i386.hfs.dmg"
+system("ssh #{image_user_at_host} rm #{ENV['IMAGE_DIR']}/#{image_platform}_HEAD.i386.hfs.dmg")
+puts "remove all but the two most recent snapshots"
+system("ssh #{image_user_at_host} '/bin/ls -cr  #{ENV['IMAGE_DIR']}/#{image_platform}_[0-9]*1[1-9]-*.i386.hfs.dmg | tail -n +2 | xargs rm'")
+puts "copy the new timestamped image & link to #{image_platform}_HEAD"
+system("ssh #{image_user_at_host} 'cp #{image_platform}.dmg #{ENV['IMAGE_DIR']}/#{image_platform}_#{date}.i386.hfs.dmg; cd #{ENV['IMAGE_DIR']}/; ln -s #{image_platform}_{#{date},HEAD}.i386.hfs.dmg;'")
