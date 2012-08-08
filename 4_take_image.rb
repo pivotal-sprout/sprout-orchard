@@ -19,8 +19,6 @@ puts "imagescan new #{image_platform}.dmg for restore"
 system("ssh #{image_user_at_host} 'sudo asr imagescan --allowfragmentedcatalog --source #{image_platform}.dmg'")
 puts "remove old #{image_platform}_HEAD from DeployStudio Masters"
 
-# FIXME: This is tortured (jenkins ssh-ing to build-machine to ssh to DeployStudio).  Maybe using a share with
-# correct permissions?
 puts "remove the existing #{ENV['IMAGE_DIR']}/#{image_platform}_HEAD.i386.hfs.dmg"
 system("ssh #{image_user_at_host} rm #{ENV['IMAGE_DIR']}/#{image_platform}_HEAD.i386.hfs.dmg")
 puts "remove all but the two most recent snapshots"

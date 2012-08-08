@@ -31,8 +31,8 @@ if [[ $PIVOTAL_LABS ]]; then
     pushd pivotal_workstation_private &&
     git remote set-url origin https://pivotalcommon@github.com/pivotalprivate/pivotal_workstation_private.git &&
     popd && popd &&
-    echo "- pivotal_workstation::meta_pivotal_specifics" >> ~/soloistrc &&
-    echo "- pivotal_workstation_private::meta_lion_image >> ~/soloistrc "'
+    echo "- pivotal_workstation::meta_pivotal_specifics"  >> ~/soloistrc &&
+    echo "- pivotal_workstation_private::meta_lion_image" >> ~/soloistrc'
 fi
 
 ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep chef || sudo gem install chef'
