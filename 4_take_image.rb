@@ -14,7 +14,7 @@ system("ssh #{image_user_at_host} 'echo #{date} | sudo tee /Volumes/NEWLY_IMAGED
 puts "clear out old #{image_platform}.dmg"
 system("ssh #{image_user_at_host} '[[ -d /Volumes/NEWLY_IMAGED ]] && [[ -f #{image_platform}.dmg ]] && rm #{image_platform}.dmg'")
 puts "create new #{image_platform}.dmg"
-system("ssh #{image_user_at_host} 'sudo hdiutil create -srcfolder /Volumes/NEWLY_IMAGED #{image_platform}.dmg'")
+system("ssh #{image_user_at_host} 'sudo hdiutil create -fs HFS+J -srcfolder /Volumes/NEWLY_IMAGED #{image_platform}.dmg'")
 puts "imagescan new #{image_platform}.dmg for restore"
 system("ssh #{image_user_at_host} 'sudo asr imagescan --allowfragmentedcatalog --source #{image_platform}.dmg'")
 puts "remove old #{image_platform}_HEAD from DeployStudio Masters"
