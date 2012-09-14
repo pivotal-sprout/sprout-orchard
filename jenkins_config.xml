@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.plugins.git.GitSCM">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>origin</name>
+        <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
+        <url>git://github.com/pivotalexperimental/apple_orchard.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>**</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <recursiveSubmodules>false</recursiveSubmodules>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <authorOrCommitter>false</authorOrCommitter>
+    <clean>false</clean>
+    <wipeOutWorkspace>false</wipeOutWorkspace>
+    <pruneBranches>false</pruneBranches>
+    <remotePoll>false</remotePoll>
+    <buildChooser class="hudson.plugins.git.util.DefaultBuildChooser"/>
+    <gitTool>Default</gitTool>
+    <submoduleCfg class="list"/>
+    <relativeTargetDir></relativeTargetDir>
+    <excludedRegions></excludedRegions>
+    <excludedUsers></excludedUsers>
+    <gitConfigName></gitConfigName>
+    <gitConfigEmail></gitConfigEmail>
+    <skipTag>false</skipTag>
+    <scmName></scmName>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers class="vector">
+    <hudson.triggers.SCMTrigger>
+      <spec>1,16,31,46 * * * *</spec>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+set -e
+# IMAGE_PLATFORM is the OS X release, e.g. &quot;Lion&quot;, &quot;ML&quot;
+export IMAGE_PLATFORM=ML
+
+# IMAGE_DIR is the directory of the location of the DeployStudio&apos;s
+# master images as seen from the &quot;persistent&quot; personality of the 
+# OS X build machine.  It should have &quot;.dmg&quot; files in it.  You should
+# be able to type &quot;ls $IMAGE_DIR/*.dmg&quot; and see all the DeployStudio
+# master images.
+export IMAGE_DIR=/Volumes/DeployStudio/Masters/HFS
+
+# IMAGE_USER is the user on the OS X build machine.  Jenkins should be able to
+# ssh in to the OS X build machine as this user without a password, so make
+# sure you have set up your ssh keys beforehand.  Also, this user needs to be
+# able to run sudo without a password. This user should be the primary 
+# workstation user (because much of the configuration is only for this
+# user)
+export IMAGE_USER=pivotal
+
+# IMAGE_HOST is the name of the OS X build machine.  Jenkins needs to be able
+# to ssh into this machine (i.e. &quot;ssh $IMAGE_USER@$IMAGE_HOST&quot; from the
+# Jenkins machine (i.e. sshd should be running &amp; not be blocked by firewall
+# rules).
+export IMAGE_HOST=bacon-ml-vm
+
+# If you&apos;re Pivotal Labs, set this to 1
+export PIVOTAL_LABS=1
+
+# If you need to build a different branch of pivotal_workstation
+export GIT_BRANCH=master
+
+echo &quot;==========================&quot;
+echo &quot;RESETTING MACHINE&quot;
+echo &quot;==========================&quot;
+./1_reset_machine.rb
+echo &quot;==========================&quot;
+echo &quot;RUNNING SOLOIST&quot;
+echo &quot;==========================&quot;
+./2_run_soloist.sh
+echo &quot;==========================&quot;
+echo &quot;REBOOTING TO PERSISTENT&quot;
+echo &quot;==========================&quot;
+./3_reboot_to_persistent.rb
+echo &quot;==========================&quot;
+echo &quot;TAKING IMAGE&quot;
+echo &quot;==========================&quot;
+./4_take_image.rb
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
