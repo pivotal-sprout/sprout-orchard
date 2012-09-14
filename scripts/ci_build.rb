@@ -1,6 +1,17 @@
 #!/usr/bin/env ruby
 #
-system("ssh ci@whatscooking 'sudo shutdown -r now; exit'")
+# Meant to run on the Jenkins host
+#
+ci_host="pivotal-workstation-ci"
+ci_user="ci"
+vmware_user="pivotal"
+vmware_host="deploystudio"
+vmware_user="pivotal"
+vmware_cmd="/Applications/VMware\ Fusion.app/Contents/Library/vmrun"
+vmware_vmx="/Volumes/SSD/Virtual\ Machines.localized/pivotal-workstation-ci.vmwarevm/pivotal-workstation-ci.vmx"
+
+system("ssh #{vmware_user}@#{vmware_host} \"#{vmware_cmd} stop #{vmware_vmx}\"")
+exit
 sleep 120
 system("scp assets/{ci_build.sh,soloistrc} ci@whatscooking:")
 # bit-shift to increase randomness (worried polling on the minute would make modules always fail or always succeed)
