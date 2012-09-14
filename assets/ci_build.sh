@@ -1,3 +1,4 @@
+# Run this script on the ci box, not the jenkins box
 set -e
 
 mkdir -p ~/cookbooks
