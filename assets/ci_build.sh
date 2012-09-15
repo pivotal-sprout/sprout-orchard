@@ -1,4 +1,9 @@
 # Run this script on the ci box, not the jenkins box
+
+# load github's ssh host key; always non-zero exit
+ssh -o StrictHostKeyChecking=no git@github.com
+
+# now we check errors
 set -e
 
 mkdir -p ~/cookbooks
