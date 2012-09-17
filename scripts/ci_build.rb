@@ -6,10 +6,10 @@
 #
 =begin
     ./ci_build.rb \
-     --ci_user_at_host=ci@pivotal-workstation-ci \
-     --vmware_user_at_host=deploy@deploystudio \
-     --vmware_cmd="/Applications/VMware\\ Fusion.app/Contents/Library/vmrun" \
-     --vmware_vmx="/Volumes/SSD/Virtual\\ Machines.localized/pivotal-workstation-ci.vmwarevm/pivotal-workstation-ci.vmx"
+     --ci_user_at_host ci@pivotal-workstation-ci \
+     --vmware_user_at_host deploy@deploystudio \
+     --vmware_cmd "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun" \
+     --vmware_vmx "/Volumes/SSD/Virtual\\ Machines.localized/pivotal-workstation-ci.vmwarevm/pivotal-workstation-ci.vmx"
 =end
 
 require 'optparse'
@@ -20,7 +20,7 @@ vmware_cmd=""
 vmware_vmx=""
 
 optparse = OptionParser.new do |opts|
-  opts.banner = "Usage: ci_build.rb [options]"
+  opts.banner = "Usage: ci_build.rb options"
   opts.on("--ci_user_at_host CI_USER_AT_HOST", "ci_user@host") do |opt|
     ci_user_at_host = opt
   end
@@ -33,7 +33,16 @@ optparse = OptionParser.new do |opts|
   opts.on("--vmware_vmx PATH", "Pathname to vmx file") do |opt|
     vmware_vmx = opt
   end
-end.parse!
+end
+
+optparse.parse!
+mandatory = [ci_user_at_host, vmware_user_at_host, vmware_cmd, vmware_vmx]
+mandatory.each do |mandate|
+  if mandate == ""
+    puts optparse
+    exit 1
+  end
+end
 
 puts "stopping CI guest"
 system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} stop #{vmware_vmx} hard\"")
