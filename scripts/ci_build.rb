@@ -53,6 +53,7 @@ system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} start #{vmware_vm
 
 sleep 120
 system("scp assets/{ci_build.sh,soloistrc} #{ci_user_at_host}:")
+system("scp ~/.ssh/id_github_lion/ #{ci_user_at_host}:.ssh/id_rsa")
 # bit-shift to increase randomness (worried polling on the minute would make modules always fail or always succeed)
 now = Time.new.to_i << 2
 if now % 3 != 0
