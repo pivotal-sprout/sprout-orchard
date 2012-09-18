@@ -45,7 +45,7 @@ mandatory.each do |mandate|
 end
 
 puts "stopping CI guest"
-system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} start #{vmware_vmx} hard\"")
+system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} start #{vmware_vmx}\"")
 puts "reverting CI guest to mostly_pristine snapshot"
 system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} revertToSnapshot #{vmware_vmx} mostly_pristine\"") || exit(1)
 puts "starting CI guest"
