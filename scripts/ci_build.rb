@@ -45,11 +45,11 @@ mandatory.each do |mandate|
 end
 
 puts "stopping CI guest"
-system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} stop #{vmware_vmx} hard\"")
+system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} stop #{vmware_vmx} hard\"") || exit(1)
 puts "reverting CI guest to mostly_pristine snapshot"
-system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} revertToSnapshot #{vmware_vmx} mostly_pristine\"")
+system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} revertToSnapshot #{vmware_vmx} mostly_pristine\"") || exit(1)
 puts "starting CI guest"
-system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} start #{vmware_vmx}\"")
+system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} start #{vmware_vmx}\"") || exit(1)
 
 sleep 120
 system("scp assets/{ci_build.sh,soloistrc} #{ci_user_at_host}:")
