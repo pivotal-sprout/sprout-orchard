@@ -17,8 +17,6 @@ recipes:
 - pivotal_workstation::meta_osx_base
 - pivotal_workstation::meta_osx_development
 - pivotal_workstation::meta_ruby_development
-- pivotal_workstation::function_keys
-- pivotal_workstation::flycut
 EOF
 '
 
