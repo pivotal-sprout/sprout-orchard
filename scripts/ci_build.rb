@@ -36,7 +36,7 @@ optparse = OptionParser.new do |opts|
     vmware_vmx = opt
   end
   opts.on("--sudo_user USER", "user to run vmrun as") do |opt|
-    vmware_vmx = opt
+    sudo_user = opt
   end
 end
 
