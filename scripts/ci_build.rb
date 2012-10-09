@@ -19,6 +19,7 @@ ci_user_at_host=""
 vmware_user_at_host=""
 vmware_cmd=""
 vmware_vmx=""
+sudo_user=""
 
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: ci_build.rb options"
