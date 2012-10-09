@@ -57,10 +57,10 @@ puts "make sure CI guest is running"
 puts("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} start #{vmware_vmx}\"")
 system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} start #{vmware_vmx}\"")
 puts "reverting CI guest to #{snapshot} snapshot"
-puts("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} revertToSnapshot #{vmware_vmx} #{snapshot}\"") || exit(1)
+puts("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} revertToSnapshot #{vmware_vmx} #{snapshot}\"")
 system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} revertToSnapshot #{vmware_vmx} #{snapshot}\"") || exit(1)
 puts "starting CI guest"
-puts("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} start #{vmware_vmx}\"") || exit(1)
+puts("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} start #{vmware_vmx}\"")
 system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} start #{vmware_vmx}\"") || exit(1)
 
 sleep 120
