@@ -20,6 +20,7 @@ vmware_user_at_host=""
 vmware_cmd=""
 vmware_vmx=""
 sudo_user=""
+snapshot=""
 
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: ci_build.rb options"
@@ -38,6 +39,9 @@ optparse = OptionParser.new do |opts|
   opts.on("--sudo_user USER", "user to run vmrun as") do |opt|
     sudo_user = opt
   end
+  opts.on("--snapshot SNAPSHOT", "snapshot to restore to") do |opt|
+    snapshot = opt
+  end
 end
 
 optparse.parse!
@@ -51,8 +55,8 @@ end
 
 puts "make sure CI guest is running"
 system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} start #{vmware_vmx}\"")
-puts "reverting CI guest to mostly_pristine snapshot"
-system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} revertToSnapshot #{vmware_vmx} mostly_pristine\"") || exit(1)
+puts "reverting CI guest to #{snapshot} snapshot"
+system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} revertToSnapshot #{vmware_vmx} #{snapshot}\"") || exit(1)
 puts "starting CI guest"
 system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} start #{vmware_vmx}\"") || exit(1)
 
