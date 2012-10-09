@@ -7,6 +7,7 @@
 =begin
     ./ci_build.rb \
      --ci_user_at_host ci@pivotal-workstation-ci \
+     --sudo_user pivotal \
      --vmware_user_at_host deploy@deploystudio \
      --vmware_cmd "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun" \
      --vmware_vmx "/Volumes/SSD/Virtual\\ Machines.localized/pivotal-workstation-ci.vmwarevm/pivotal-workstation-ci.vmx"
@@ -33,6 +34,9 @@ optparse = OptionParser.new do |opts|
   opts.on("--vmware_vmx PATH", "Pathname to vmx file") do |opt|
     vmware_vmx = opt
   end
+  opts.on("--sudo_user USER", "user to run vmrun as") do |opt|
+    vmware_vmx = opt
+  end
 end
 
 optparse.parse!
@@ -45,11 +49,11 @@ mandatory.each do |mandate|
 end
 
 puts "make sure CI guest is running"
-system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} start #{vmware_vmx}\"")
+system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} start #{vmware_vmx}\"")
 puts "reverting CI guest to mostly_pristine snapshot"
-system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} revertToSnapshot #{vmware_vmx} mostly_pristine\"") || exit(1)
+system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} revertToSnapshot #{vmware_vmx} mostly_pristine\"") || exit(1)
 puts "starting CI guest"
-system("ssh #{vmware_user_at_host} \"sudo -u ops #{vmware_cmd} start #{vmware_vmx}\"") || exit(1)
+system("ssh #{vmware_user_at_host} \"sudo -u #{sudo_user} #{vmware_cmd} start #{vmware_vmx}\"") || exit(1)
 
 sleep 120
 system("scp assets/{ci_build.sh,soloistrc} #{ci_user_at_host}:")
