@@ -6,14 +6,19 @@ image_user = ENV['IMAGE_USER'];
 image_platform = ENV['IMAGE_PLATFORM'];
 image_user_at_host = image_user + '@' + ENV['IMAGE_HOST']
 
-puts "determining imaging partition"
-$newly_imaged_partition = `ssh #{image_user_at_host} diskutil list`.each_line.map {|line| line =~ /NEWLY_IMAGED/ && "/dev/"+line.split[5] }.compact.first
-$persistent_partition = `ssh #{image_user_at_host} diskutil list`.each_line.map {|line| line =~ /Persistent/ && "/dev/"+line.split[5] }.compact.first
-if !$newly_imaged_partition or !$persistent_partition
-  puts "'diskutil list' couldn't find a partition /Volumes/NEWLY_IMAGED or /Volumes/Persistent!"
-  puts "try 'sudo diskutil rename /Volumes/blah_blah NEWLY_IMAGED' to fix"
-  exit 1
+def find_partition(name)
+  partition=`ssh #{image_user_at_host} diskutil list`.each_line.map {|line| line =~ /#{name}/ && "/dev/"+line.split[5] }.compact.first
+  if !partition
+    puts "'diskutil list' couldn't find a partition /Volumes/#{name}"
+    puts "try 'sudo diskutil rename /Volumes/blah_blah #{name}' to fix"
+    exit 1
+  end
+  partition
 end
+
+puts "determining imaging partition"
+$newly_imaged_partition = find_partition "NEWLY_IMAGED"
+$persistent_partition = find_partition "Persistent"
 
 unless on_persistent?
   reboot_to("/Volumes/Persistent")
