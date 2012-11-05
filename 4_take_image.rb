@@ -16,7 +16,7 @@ system("ssh #{image_user_at_host} '[[ -d /Volumes/NEWLY_IMAGED ]] && [[ -f #{ima
 puts "create new #{image_platform}.dmg"
 system("ssh #{image_user_at_host} 'sudo hdiutil create -fs HFS+J -srcfolder /Volumes/NEWLY_IMAGED #{image_platform}.dmg'")
 puts "imagescan new #{image_platform}.dmg for restore"
-system("ssh #{image_user_at_host} 'sudo asr imagescan --allowfragmentedcatalog --source #{image_platform}.dmg'")
+system("ssh #{image_user_at_host} 'sudo asr imagescan --allowfragmentedcatalog --source #{image_platform}.dmg'") || exit(1)
 puts "remove old #{image_platform}_HEAD from DeployStudio Masters"
 
 puts "remove the existing #{ENV['IMAGE_DIR']}/#{image_platform}_HEAD.i386.hfs.dmg"
