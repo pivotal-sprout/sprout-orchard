@@ -5,12 +5,13 @@
 # Typical invocation:
 #
 =begin
-    ./ci_build.rb \
-     --ci_user_at_host ci@pivotal-workstation-ci \
-     --sudo_user pivotal \
-     --vmware_user_at_host deploy@deploystudio \
-     --vmware_cmd "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun" \
-     --vmware_vmx "/Volumes/SSD/Virtual\\ Machines.localized/pivotal-workstation-ci.vmwarevm/pivotal-workstation-ci.vmx"
+./scripts/ci_build.rb \
+  --ci_user_at_host=ci@pivotal-workstation-ci  \
+  --vmware_user_at_host=ci@turk \
+  --vmware_cmd="/Applications/VMware\\ Fusion.app/Contents/Library/vmrun" \
+  --sudo_user="pivotal" \
+  --snapshot=mostly-pristine \
+  --vmware_vmx="/Volumes/SSD/Virtual\\ Machines.localized/pivotal-workstation-ci.vmwarevm/pivotal-workstation-ci.vmx"
 =end
 
 require 'optparse'
