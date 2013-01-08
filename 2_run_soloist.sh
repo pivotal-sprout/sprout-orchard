@@ -37,6 +37,18 @@ fi
 ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep soloist || sudo gem install soloist --pre'
 ssh $IMAGE_USER@$IMAGE_HOST 'soloist'
 
+# Successful run, let's do the tagging, etc..., if we're pivotal
+if [[ $PIVOTAL_LABS ]]; then
+  ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
+    ssh-add  ~/.ssh/id_github_lion &&
+    pushd cookbooks/pivotal_workstation &&
+    git remote set-url origin git@github.com:pivotal/pivotal_workstation.git
+    git tag success/`date +%Y%m%d%H%M%S` &&
+    git tag -f success/latest &&
+    git push --force --tags &&
+    git remote set-url origin https://github.com/pivotal/pivotal_workstation.git'
+fi
+
 # post-install, set the machine name to NEWLY_IMAGED
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo hostname NEWLY_IMAGED
   sudo scutil --set ComputerName   NEWLY_IMAGED
