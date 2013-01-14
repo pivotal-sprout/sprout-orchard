@@ -30,6 +30,14 @@ export PIVOTAL_LABS=0
 # If you need to build a different branch of pivotal_workstation
 export GIT_BRANCH=master
 
+# This is the soloistrc file (which pivotal_workstation chef recipes are run)
+export SOLOISTRC="cookbook_paths:
+- cookbooks
+recipes:
+- pivotal_workstation::meta_osx_base
+- pivotal_workstation::meta_osx_development
+- pivotal_workstation::meta_ruby_development"
+
 echo "=========================="
 echo "RESETTING MACHINE"
 echo "=========================="

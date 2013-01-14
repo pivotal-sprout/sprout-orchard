@@ -11,15 +11,10 @@ ssh $IMAGE_USER@$IMAGE_HOST "cd cookbooks &&
   git clone https://github.com/pivotalexperimental/apple_orchard.git"
 
 
-ssh $IMAGE_USER@$IMAGE_HOST 'cat > soloistrc <<EOF
-cookbook_paths:
-- cookbooks
-recipes:
-- pivotal_workstation::meta_osx_base
-- pivotal_workstation::meta_osx_development
-- pivotal_workstation::meta_ruby_development
+ssh $IMAGE_USER@$IMAGE_HOST "cat > soloistrc <<EOF
+$SOLOISTRC
 EOF
-'
+"
 
 if [[ $PIVOTAL_LABS ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
