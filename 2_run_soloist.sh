@@ -29,7 +29,7 @@ if [[ $PIVOTAL_LABS ]]; then
     echo "- pivotal_workstation_private::meta_lion_image" >> ~/soloistrc'
 fi
 
-ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep soloist || sudo gem install soloist --pre'
+ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep soloist || sudo gem install soloist'
 ssh $IMAGE_USER@$IMAGE_HOST 'soloist'
 
 # Successful run, let's do the tagging, etc..., if we're pivotal
