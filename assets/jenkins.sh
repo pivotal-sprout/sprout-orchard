@@ -4,7 +4,7 @@ set -e
 export IMAGE_PLATFORM=ML
 
 # IMAGE_DIR is the directory of the location of the DeployStudio's
-# master images as seen from the "persistent" personality of the 
+# master images as seen from the "persistent" personality of the
 # OS X build machine.  It should have ".dmg" files in it.  You should
 # be able to type "ls $IMAGE_DIR/*.dmg" and see all the DeployStudio
 # master images.
@@ -27,16 +27,20 @@ export IMAGE_HOST=buildmachine-vm
 # If you're Pivotal Labs, set this to 1
 export PIVOTAL_LABS=0
 
-# If you need to build a different branch of pivotal_workstation
-export GIT_BRANCH=master
-
 # This is the soloistrc file (which pivotal_workstation chef recipes are run)
 export SOLOISTRC="cookbook_paths:
 - cookbooks
 recipes:
 - pivotal_workstation::meta_osx_base
 - pivotal_workstation::meta_osx_development
-- pivotal_workstation::meta_ruby_development"
+- pivotal_workstation::meta_ruby_development
+"
+
+export CHEFFILE="
+site 'http://community.opscode.com/api/v1'
+cookbook 'pivotal_workstation',
+         :git => "https://github.com/pivotal/pivotal_workstation.git'
+"
 
 echo "=========================="
 echo "RESETTING MACHINE"

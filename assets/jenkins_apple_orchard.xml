@@ -77,9 +77,6 @@ export IMAGE_HOST=bacon-ml-vm
 # If you&apos;re Pivotal Labs, set this to 1
 export PIVOTAL_LABS=1
 
-# If you need to build a different branch of pivotal_workstation
-export GIT_BRANCH=master
-
 echo &quot;==========================&quot;
 echo &quot;RESETTING MACHINE&quot;
 echo &quot;==========================&quot;
