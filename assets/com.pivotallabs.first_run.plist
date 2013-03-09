@@ -3,20 +3,20 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>com.pivotallabs.auto_set_hostname</string>
+	<string>com.pivotallabs.first_run</string>
 	<key>LimitLoadToSessionType</key>
 	<string>LoginWindow</string>
 	<key>ProgramArguments</key>
 	<array>
-          <string>/usr/sbin/auto_set_hostname.rb</string>
+          <string>/usr/sbin/first_run.rb</string>
 	</array>
         <key>KeepAlive</key>
         <false/>
 	<key>RunAtLoad</key>
 	<true/>
 	<key>StandardErrorPath</key>
-        <string>/tmp/com.pivotallabs.auto_set_hostname.stderr</string>
+        <string>/tmp/com.pivotallabs.first_run.stderr</string>
 	<key>StandardOutPath</key>
-        <string>/tmp/com.pivotallabs.auto_set_hostname.stdout</string>
+        <string>/tmp/com.pivotallabs.first_run.stdout</string>
 </dict>
 </plist>

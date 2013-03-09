@@ -51,7 +51,8 @@ ssh $IMAGE_USER@$IMAGE_HOST 'sudo hostname NEWLY_IMAGED
   sudo scutil --set HostName       NEWLY_IMAGED
   sudo diskutil rename /           NEWLY_IMAGED'
 
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo cp ~/workspace/apple_orchard/assets/com.pivotallabs.auto_set_hostname.plist  /Library/LaunchAgents/'
+ssh $IMAGE_USER@$IMAGE_HOST 'sudo cp ~/workspace/apple_orchard/assets/com.pivotallabs.first_run.plist  /Library/LaunchAgents/'
+ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/first_run.rb /usr/sbin/'
 ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
 # turn off vmware tools (VMware Shared Folders) if installed
