@@ -39,7 +39,7 @@ recipes:
 export CHEFFILE="
 site 'http://community.opscode.com/api/v1'
 cookbook 'pivotal_workstation',
-         :git => "https://github.com/pivotal/pivotal_workstation.git'
+         :git => 'https://github.com/pivotal/pivotal_workstation.git'
 "
 
 echo "=========================="
