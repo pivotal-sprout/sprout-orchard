@@ -50,6 +50,9 @@ puts "now putting sudoers that doesn't ask for a password"
 system!("ssh #{image_user_at_host} 'sudo cp {,/Volumes/NEWLY_IMAGED}/private/etc/sudoers'")
 puts "turn on sshd"
 system!("ssh #{image_user_at_host} 'sudo cp /etc/ssh* /Volumes/NEWLY_IMAGED/etc/; sudo defaults write /Volumes/NEWLY_IMAGED/var/db/launchd.db/com.apple.launchd/overrides.plist com.openssh.sshd -dict Disabled -bool false'")
+# The screensaver serves no purpose other than to senselessly chew up CPU, unnecessarily burning watts
+system!("ssh #{image_user_at_host} 'sudo defaults write /Volumes/NEWLY_IMAGED/Library/Preferences/com.apple.screensaver.plist moduleDict -dict moduleName iLifeSlideshows path \"/System/Library/Frameworks/ScreenSaver.framework/Resources/iLifeSlideshows.saver\" type -int 0'")
+system!("ssh #{image_user_at_host} 'sudo mv /Volumes/NEWLY_IMAGED/Library/Preferences/com.apple.screensaver{,-disabled}.plist'")
 system!("ssh #{image_user_at_host} 'echo --silent > /Volumes/NEWLY_IMAGED/Users/#{image_user}/.curlrc'")
 system!("ssh #{image_user_at_host} 'echo --silent | sudo tee /Volumes/NEWLY_IMAGED/var/root/.curlrc'")
 # bit-shift to increase randomness (worried polling on the minute would make modules always fail or always succeed)
