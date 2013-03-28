@@ -33,6 +33,9 @@ end
 # allow time for automated login & mounting of disks to work
 # We need AT LEAST a minute for the disk to mount
 sleep 90
+# test ssh working
+puts "test if ssh-without-password is working"
+system("ssh #{image_user_at_host} 'true'")
 puts "detaching (unmounting) #{$newly_imaged_partition} imaging partition"
 # ignore spurious 'hdiutil: couldn't unmount "disk0" - Resource busy' messages
 system("ssh #{image_user_at_host} 'sudo hdiutil detach #{$newly_imaged_partition}'")
