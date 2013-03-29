@@ -8,7 +8,7 @@ image_user_at_host = image_user + '@' + ENV['IMAGE_HOST']
 
 # test ssh working
 puts "test if ssh-without-password is working"
-system("ssh #{image_user_at_host} 'true'")
+system!("ssh #{image_user_at_host} 'true'")
 
 def find_partition(name)
   partition=`ssh #{image_user_at_host} diskutil list`.each_line.map {|line| line =~ /#{name}/ && "/dev/"+line.split[5] }.compact.first
