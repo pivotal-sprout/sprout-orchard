@@ -57,13 +57,17 @@ ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/asse
 ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
 # turn off vmware tools (VMware Shared Folders) if installed
-ssh $IMAGE_USER@$IMAGE_HOST 'PLIST=/Library/LaunchAgents/com.vmware.launchd.vmware-tools-userd.plist;
+ssh $IMAGE_USER@$IMAGE_HOST 'for PLIST in \
+  /Library/LaunchAgents/com.vmware.launchd.vmware-tools-userd.plist \
+  /Library/LaunchDaemons/com.vmware.launchd.tools.plist
+do
   [ -f $PLIST ] &&
   sudo defaults write $PLIST RunAtLoad -bool false &&
   sudo plutil -convert xml1 $PLIST &&
   sudo chmod 444 $PLIST
-  rm ~/Desktop/VMWare\ Shared\ Folders
-  true'
+done
+rm ~/Desktop/VMWare\ Shared\ Folders
+true'
 
 # reboot to Persistent
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo bless --mount /Volumes/Persistent --setboot'
