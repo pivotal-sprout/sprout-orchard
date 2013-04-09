@@ -31,7 +31,6 @@ fi
 
 # prevent machine from sleeping (otherwise will lose build)
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0'
-ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep thor || sudo gem install thor -v 0.17.0'
 ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep soloist || sudo gem install soloist'
 ssh $IMAGE_USER@$IMAGE_HOST 'soloist'
 
