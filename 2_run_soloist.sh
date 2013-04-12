@@ -1,41 +1,33 @@
 #!/bin/bash
 set -e
 
-ssh $IMAGE_USER@$IMAGE_HOST 'mkdir -p ~/workspace'
 ssh $IMAGE_USER@$IMAGE_HOST "
-  cd ~/workspace &&
-  git clone https://github.com/pivotalexperimental/apple_orchard.git"
-
-ssh $IMAGE_USER@$IMAGE_HOST "cat > soloistrc <<EOF
-$SOLOISTRC
-EOF
-"
-ssh $IMAGE_USER@$IMAGE_HOST "cat > Cheffile <<EOF
-$CHEFFILE
-EOF
-"
+  cd /tmp &&
+  git clone https://github.com/pivotalexperimental/apple_orchard.git &&
+  git clone https://github.com/hiremaga/sprout-wrap.git"
 
 if [[ $PIVOTAL_LABS ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
     ssh-add  ~/.ssh/id_github_lion &&
-    pushd workspace &&
+    pushd /tmp &&
     ( ssh -o StrictHostKeyChecking=no git@github.com exit; : ) &&
     git clone git@github.com:pivotalprivate/pivotal_workstation_private.git &&
     pushd pivotal_workstation_private &&
     git remote set-url origin https://pivotalcommon@github.com/pivotalprivate/pivotal_workstation_private.git &&
     popd && popd &&
-    echo "- pivotal_workstation::meta_pivotal_specifics"  >> ~/soloistrc &&
-    echo "- pivotal_workstation_private::meta_lion_image" >> ~/soloistrc &&
-    echo "cookbook \"pivotal_workstation_private\", :path => \"~/workspace/pivotal_workstation_private\"" >> ~/Cheffile'
+    echo "cookbook \"pivotal_workstation_private\", :path => \"/tmp/pivotal_workstation_private\"" >> ~/Cheffile'
 fi
 
-# prevent machine from sleeping (otherwise will lose build)
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0'
+
+ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
 ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep soloist || sudo gem install soloist'
 ssh $IMAGE_USER@$IMAGE_HOST 'soloist'
 
-# Successful run, let's do the tagging, etc..., if we're pivotal
 if [[ $PIVOTAL_LABS ]]; then
+  ssh $IMAGE_USER@$IMAGE_HOST 'soloist run_recipe meta::pivotal_specifics'
+  ssh $IMAGE_USER@$IMAGE_HOST 'soloist run_recipe pivotal_workstation_private::meta_lion_image'
+
+  # Successful run, let's do the tagging, etc...
   ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
     ssh-add  ~/.ssh/id_github_lion &&
     pushd cookbooks/pivotal_workstation &&
