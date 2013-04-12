@@ -51,8 +51,8 @@ system!("ssh #{image_user_at_host} 'sudo mdutil -i off /Volumes/NEWLY_IMAGED'")
 puts "putting ssh-keys into place"
 system!("ssh #{image_user_at_host} 'mkdir /Volumes/NEWLY_IMAGED/Users/#{image_user}/.ssh'")
 system!("ssh #{image_user_at_host} 'chmod 700 /Volumes/NEWLY_IMAGED/Users/#{image_user}/.ssh'")
-system!("ssh #{image_user_at_host} 'cp -s .ssh/id_github_lion /Volumes/NEWLY_IMAGED/Users/#{image_user}/.ssh'")
-system!("ssh #{image_user_at_host} 'cp -s .ssh/authorized_keys /Volumes/NEWLY_IMAGED/Users/#{image_user}/.ssh'")
+system!("ssh #{image_user_at_host} 'cp .ssh/id_github_lion /Volumes/NEWLY_IMAGED/Users/#{image_user}/.ssh'")
+system!("ssh #{image_user_at_host} 'cp .ssh/authorized_keys /Volumes/NEWLY_IMAGED/Users/#{image_user}/.ssh'")
 puts "now putting sudoers that doesn't ask for a password"
 system!("ssh #{image_user_at_host} 'sudo cp {,/Volumes/NEWLY_IMAGED}/private/etc/sudoers'")
 puts "turn on sshd"
