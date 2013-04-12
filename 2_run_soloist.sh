@@ -12,8 +12,7 @@ if [[ $PIVOTAL_LABS ]]; then
     ( ssh -o StrictHostKeyChecking=no git@github.com exit; : ) &&
     cd /tmp &&
     git clone git@github.com:pivotalprivate/pivotal_workstation_private.git &&
-    cd /tmp/sprout-wrap
-    echo "cookbook \"pivotal_workstation_private\", :path => \"/tmp/pivotal_workstation_private\"" >> ~/Cheffile'
+    echo "cookbook \"pivotal_workstation_private\", :path => \"/tmp/pivotal_workstation_private\"" >> /tmp/sprout-wrap/Cheffile'
 fi
 
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
