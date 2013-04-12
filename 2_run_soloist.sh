@@ -8,7 +8,7 @@ ssh $IMAGE_USER@$IMAGE_HOST "
 
 if [[ $PIVOTAL_LABS ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
-    ssh-add  ~/.ssh/id_github_lion &&
+    ssh-add  ~/bootstrap_ssh/id_github_lion &&
     ( ssh -o StrictHostKeyChecking=no git@github.com exit; : ) &&
     cd /tmp &&
     git clone git@github.com:pivotalprivate/pivotal_workstation_private.git &&
@@ -25,7 +25,7 @@ if [[ $PIVOTAL_LABS ]]; then
 
   # Successful run, let's do the tagging, etc...
   ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
-    ssh-add  ~/.ssh/id_github_lion &&
+    ssh-add  ~/bootstrap_ssh/id_github_lion &&
     pushd /tmp/sprout-wrap/cookbooks/pivotal_workstation &&
     git remote set-url origin git@github.com:pivotal/pivotal_workstation.git
     git tag success/`date +%Y%m%d%H%M%S` &&
@@ -60,4 +60,4 @@ true'
 
 # reboot to Persistent
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo bless --mount /Volumes/Persistent --setboot'
-ssh $IMAGE_USER@$IMAGE_HOST 'rm -fr ~/.ssh; sudo shutdown -r now'
+ssh $IMAGE_USER@$IMAGE_HOST 'rm -fr ~/bootstrap_ssh; sudo shutdown -r now'
