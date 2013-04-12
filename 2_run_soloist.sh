@@ -26,7 +26,7 @@ if [[ $PIVOTAL_LABS ]]; then
   # Successful run, let's do the tagging, etc...
   ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
     ssh-add  ~/.ssh/id_github_lion &&
-    pushd cookbooks/pivotal_workstation &&
+    pushd /tmp/sprout-wrap/cookbooks/pivotal_workstation &&
     git remote set-url origin git@github.com:pivotal/pivotal_workstation.git
     git tag success/`date +%Y%m%d%H%M%S` &&
     git tag -f success/latest &&
@@ -41,9 +41,9 @@ ssh $IMAGE_USER@$IMAGE_HOST 'sudo hostname NEWLY_IMAGED
   sudo scutil --set HostName       NEWLY_IMAGED
   sudo diskutil rename /           NEWLY_IMAGED'
 
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo cp ~/workspace/apple_orchard/assets/com.pivotallabs.first_run.plist  /Library/LaunchAgents/'
-ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/first_run.rb /usr/sbin/'
-ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp ~/workspace/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
+ssh $IMAGE_USER@$IMAGE_HOST 'sudo cp /tmp/apple_orchard/assets/com.pivotallabs.first_run.plist  /Library/LaunchAgents/'
+ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp /tmp/apple_orchard/assets/first_run.rb /usr/sbin/'
+ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp /tmp/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
 # turn off vmware tools (VMware Shared Folders) if installed
 ssh $IMAGE_USER@$IMAGE_HOST 'for PLIST in \
