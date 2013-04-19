@@ -4,7 +4,7 @@ set -e
 ssh $IMAGE_USER@$IMAGE_HOST "
   cd /tmp &&
   git clone https://github.com/pivotalexperimental/apple_orchard.git &&
-  git clone https://github.com/hiremaga/sprout-wrap.git"
+  git clone https://github.com/pivotal-sprout/sprout-wrap.git"
 
 if [[ $PIVOTAL_LABS ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
