@@ -22,15 +22,7 @@ if [[ $PIVOTAL_LABS ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && bundle exec soloist soloist run_recipe meta::pivotal_specifics'
   ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && bundle exec soloist soloist run_recipe pivotal_workstation_private::meta_lion_image'
 
-  # Successful run, let's do the tagging, etc...
-  ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
-    ssh-add  ~/.ssh/id_github_lion &&
-    pushd /tmp/sprout-wrap/cookbooks/pivotal_workstation &&
-    git remote set-url origin git@github.com:pivotal/pivotal_workstation.git
-    git tag success/`date +%Y%m%d%H%M%S` &&
-    git tag -f success/latest &&
-    git push --force --tags &&
-    git remote set-url origin https://github.com/pivotal/pivotal_workstation.git'
+  # Successful run, in the future we should tag
 fi
 
 # post-install, set the machine name to NEWLY_IMAGED
