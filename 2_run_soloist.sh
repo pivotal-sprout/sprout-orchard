@@ -16,12 +16,12 @@ if [[ $PIVOTAL_LABS ]]; then
 fi
 
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
-ssh $IMAGE_USER@$IMAGE_HOST 'gem list | grep soloist || sudo gem install soloist'
-ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && soloist'
+ssh $IMAGE_USER@$IMAGE_HOST 'sudo gem install bundler && bundle install'
+ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && bundle exec soloist'
 
 if [[ $PIVOTAL_LABS ]]; then
-  ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && soloist run_recipe meta::pivotal_specifics'
-  ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && soloist run_recipe pivotal_workstation_private::meta_lion_image'
+  ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && bundle exec soloist soloist run_recipe meta::pivotal_specifics'
+  ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && bundle exec soloist soloist run_recipe pivotal_workstation_private::meta_lion_image'
 
   # Successful run, let's do the tagging, etc...
   ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
