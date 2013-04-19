@@ -16,8 +16,7 @@ if [[ $PIVOTAL_LABS ]]; then
 fi
 
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo gem install bundler && bundle install'
-ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && bundle exec soloist'
+ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && sudo gem install bundler && bundle install && bundle exec soloist'
 
 if [[ $PIVOTAL_LABS ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && bundle exec soloist soloist run_recipe meta::pivotal_specifics'
