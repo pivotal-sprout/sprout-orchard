@@ -35,8 +35,4 @@ hostnames.each do |hostname|
   end
 end
 
-# We auto_set our hostname the FIRST time we boot; to prevent us from
-# setting the hostname every time we boot, we remove the plist file.
-if File.exists?("/Library/LaunchAgents/com.pivotallabs.auto_set_hostname.plist")
-  `sudo mv /Library/LaunchAgents/com.pivotallabs.auto_set_hostname.plist /tmp/`
-end
+
