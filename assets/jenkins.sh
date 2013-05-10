@@ -27,6 +27,10 @@ export IMAGE_HOST=buildmachine-vm
 # If you're Pivotal Labs, set this to 1
 export PIVOTAL_LABS=0
 
+# If you want notification email(s) when image is created
+# EMAIL_ADDR="nono@nono.com"
+# EMAIL_ADDR="first_addr@nono.com second_addr@nono.com"
+export EMAIL_ADDR=""
 
 echo "=========================="
 echo "RESETTING MACHINE"
