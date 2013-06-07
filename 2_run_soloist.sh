@@ -8,7 +8,7 @@ ssh $IMAGE_USER@$IMAGE_HOST "
 
 if [[ $PIVOTAL_LABS ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
-    ssh-add  ~/.ssh/id_github_lion &&
+    ssh-add  ~/.ssh/id_github_private &&
     ( ssh -o StrictHostKeyChecking=no git@github.com exit; : ) &&
     cd /tmp &&
     git clone git@github.com:pivotalprivate/pivotal_workstation_private.git &&
@@ -51,4 +51,4 @@ true'
 
 # reboot to Persistent
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo bless --mount /Volumes/Persistent --setboot'
-ssh $IMAGE_USER@$IMAGE_HOST 'rm -fr ~/.ssh/id_github_lion ~/.ssh/authorized_keys && sudo shutdown -r now'
+ssh $IMAGE_USER@$IMAGE_HOST 'rm -fr ~/.ssh/id_github_private ~/.ssh/authorized_keys && sudo shutdown -r now'
