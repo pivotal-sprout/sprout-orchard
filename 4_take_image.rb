@@ -27,5 +27,5 @@ system("ssh #{image_user_at_host} '/bin/ls -cr  #{ENV['IMAGE_DIR']}/#{image_plat
 puts "copy the new timestamped image & link to #{image_platform}_HEAD"
 system("ssh #{image_user_at_host} 'cp #{image_platform}.dmg #{ENV['IMAGE_DIR']}/#{image_platform}_#{date}.i386.hfs.dmg; cd #{ENV['IMAGE_DIR']}/; ln -s #{image_platform}_{#{date},HEAD}.i386.hfs.dmg;'")
 if email_addr != nil
- system("echo '#{image_platform}_#{date}.i386.hsf.dmg' | mail -s 'New DeployStudio Image' #{email_addr}")
+ system("echo '#{image_platform}_#{date}.i386.hfs.dmg' | mail -s 'New DeployStudio Image' #{email_addr}")
 end
