@@ -42,7 +42,7 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers class="vector">
     <hudson.triggers.SCMTrigger>
-      <spec>1,16,31,46 * * * *</spec>
+      <spec>*/15 * * * *</spec>
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
@@ -54,7 +54,7 @@ set -e
 export IMAGE_PLATFORM=ML
 
 # IMAGE_DIR is the directory of the location of the DeployStudio&apos;s
-# master images as seen from the &quot;persistent&quot; personality of the 
+# master images as seen from the &quot;persistent&quot; personality of the
 # OS X build machine.  It should have &quot;.dmg&quot; files in it.  You should
 # be able to type &quot;ls $IMAGE_DIR/*.dmg&quot; and see all the DeployStudio
 # master images.
@@ -63,7 +63,7 @@ export IMAGE_DIR=/Volumes/DeployStudio/Masters/HFS
 # IMAGE_USER is the user on the OS X build machine.  Jenkins should be able to
 # ssh in to the OS X build machine as this user without a password, so make
 # sure you have set up your ssh keys beforehand.  Also, this user needs to be
-# able to run sudo without a password. This user should be the primary 
+# able to run sudo without a password. This user should be the primary
 # workstation user (because much of the configuration is only for this
 # user)
 export IMAGE_USER=pivotal
@@ -72,10 +72,30 @@ export IMAGE_USER=pivotal
 # to ssh into this machine (i.e. &quot;ssh $IMAGE_USER@$IMAGE_HOST&quot; from the
 # Jenkins machine (i.e. sshd should be running &amp; not be blocked by firewall
 # rules).
-export IMAGE_HOST=bacon-ml-vm
+export IMAGE_HOST=graystone
 
 # If you&apos;re Pivotal Labs, set this to 1
 export PIVOTAL_LABS=1
+
+# If you want notification email(s) when image is created
+# EMAIL_ADDR=&quot;nono@nono.com&quot;
+# EMAIL_ADDR=&quot;first_addr@nono.com second_addr@nono.com&quot;
+export EMAIL_ADDR=&quot;ops+deploystudio@nono.com main@pivotal-labs.nono.com&quot;
+
+# This is the soloistrc file (which pivotal_workstation chef recipes are run)
+export SOLOISTRC=&quot;cookbook_paths:
+- cookbooks
+recipes:
+- pivotal_workstation::meta_osx_base
+- pivotal_workstation::meta_osx_development
+- pivotal_workstation::meta_ruby_development
+&quot;
+
+export CHEFFILE=&quot;
+site &apos;http://community.opscode.com/api/v1&apos;
+cookbook &apos;pivotal_workstation&apos;,
+         :git =&gt; &apos;https://github.com/pivotal/pivotal_workstation.git&apos;
+&quot;
 
 echo &quot;==========================&quot;
 echo &quot;RESETTING MACHINE&quot;
@@ -92,8 +112,7 @@ echo &quot;==========================&quot;
 echo &quot;==========================&quot;
 echo &quot;TAKING IMAGE&quot;
 echo &quot;==========================&quot;
-./4_take_image.rb
-</command>
+./4_take_image.rb</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
