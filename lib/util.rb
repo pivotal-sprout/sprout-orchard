@@ -30,7 +30,7 @@ module Util
 
   def disappear_reappear
     # wait for machine to disappear
-    Timeout::timeout(120) do
+    Timeout::timeout(240) do
       if system("ssh #{image_user_at_host} -o ConnectTimeout=5 'true'")
         sleep 1
       end
@@ -39,7 +39,7 @@ module Util
     puts "machine down"
 
     # wait for machine to reappear
-    Timeout::timeout(120) do
+    Timeout::timeout(240) do
       until system("ssh #{image_user_at_host} -o ConnectTimeout=5 'true'")
         sleep 1
       end
