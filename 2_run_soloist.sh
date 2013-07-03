@@ -3,7 +3,7 @@ set -e
 
 ssh $IMAGE_USER@$IMAGE_HOST "
   cd /tmp &&
-  git clone https://github.com/pivotalexperimental/apple_orchard.git &&
+  git clone https://github.com/pivotal-sprout/sprout-orchard.git &&
   git clone $SPROUT_WRAP_GIT_URL sprout-wrap"
 
 if [[ $PIVOTAL_LABS ]]; then
@@ -32,9 +32,9 @@ ssh $IMAGE_USER@$IMAGE_HOST 'sudo hostname NEWLY_IMAGED
   sudo scutil --set HostName       NEWLY_IMAGED
   sudo diskutil rename /           NEWLY_IMAGED'
 
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo cp /tmp/apple_orchard/assets/com.pivotallabs.first_run.plist  /Library/LaunchAgents/'
-ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp /tmp/apple_orchard/assets/first_run.rb /usr/sbin/'
-ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp /tmp/apple_orchard/assets/auto_set_hostname.rb /usr/sbin/'
+ssh $IMAGE_USER@$IMAGE_HOST 'sudo cp /tmp/sprout-orchard/assets/com.pivotallabs.first_run.plist  /Library/LaunchAgents/'
+ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/first_run.rb /usr/sbin/'
+ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
 # turn off vmware tools (VMware Shared Folders) if installed
 ssh $IMAGE_USER@$IMAGE_HOST 'for PLIST in \

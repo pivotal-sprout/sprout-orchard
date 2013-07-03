@@ -10,7 +10,7 @@
       <hudson.plugins.git.UserRemoteConfig>
         <name>origin</name>
         <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-        <url>git://github.com/pivotalexperimental/apple_orchard.git</url>
+        <url>git://github.com/pivotal-sprout/sprout-orchard.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>

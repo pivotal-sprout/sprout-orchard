@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Triggers a new build of Apple Orchard when the chef cookbook has been modified.</description>
+  <description>Triggers a new build of Sprout Orchard when the chef cookbook has been modified.</description>
   <keepDependencies>false</keepDependencies>
   <properties/>
   <scm class="hudson.plugins.git.GitSCM">
@@ -49,7 +49,7 @@
   <builders/>
   <publishers>
     <hudson.tasks.BuildTrigger>
-      <childProjects>Apple Orchard ML Image, Pivotal Workstation CI</childProjects>
+      <childProjects>Sprout Orchard ML Image, Pivotal Workstation CI</childProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>
