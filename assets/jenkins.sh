@@ -24,6 +24,10 @@ export IMAGE_USER=pivotal
 # rules).
 export IMAGE_HOST=buildmachine-vm
 
+# SPROUT_WRAP_GIT_URL is the URL to clone the git repo of the sprout-wrap
+# If you fork sprout-wrap, you'll need to point this to your fork
+export SPROUT_WRAP_GIT_URL=https://github.com/pivotal-sprout/sprout-wrap.git
+
 # If you're Pivotal Labs, set this to 1
 export PIVOTAL_LABS=0
 
