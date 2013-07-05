@@ -1,6 +1,7 @@
-Sprout Orchard is a set of scripts (bash & ruby) which run the 
+Sprout Orchard is a set of scripts (bash & ruby) which run a selection of 
 [Chef](http://www.opscode.com/chef/)
-recipes in [Pivotal Workstation](https://github.com/pivotal/pivotal_workstation)
+recipes in [Pivotal Sprout](https://github.com/pivotal-sprout/sprout)
+as specified by the meta-recipes in [Sprout Wrap](https://github.com/pivotal-sprout/sprout-wrap)
 in order to create OS X disk images which are deployed via 
 [DeployStudio](http://www.deploystudio.com/Home.html).
 
@@ -15,20 +16,21 @@ databases such as MySQL and PostgrSQL, applications such as Chrome and Skype).
 When we give a developer a new machine, it is pre-loaded with those items.
 
 Our process of building a developer workstation is encapsulated in a series
-of Chef recipes (i.e. Pivotal Workstation).  Sprout Orchard pre-bakes those 
+of Chef recipes (i.e. Sprout, Sprout-wrap).  Sprout Orchard pre-bakes those 
 recipes in a disk image.  Installing the disk image is faster than running
 the Chef recipes on each new workstation. Also, having a disk image spares the 
 developer from problems such as inaccessible download servers, stale URLs, etc.
 
 The process is fairly automated.  A typical workflow is as follows:
 
-* A developer updates the TextMate recipe and pushes to Pivotal's pivotal_workstation repo on github
+* A developer updates a recipe (e.g. Sublime Text) and pushes to Pivotal-sprout's sprout repo on github
 * A Sprout Orchard Jenkins server detects that there has been an update to the repo and begins a build
 * At the end of the build (assuming success), the resulting disk image, with the new TextMate, is copied to the DeployStudio server 
 
 ## How do I set it up?
 
-If you're interested in setting it up yourself, please refer to the [wiki](https://github.com/pivotal-sprout/sprout-orchard/wiki/)
+If you're interested in setting it up yourself, please refer to the 
+[wiki](https://github.com/pivotal-sprout/sprout-orchard/wiki/)
 
 ## What will I need?
 
