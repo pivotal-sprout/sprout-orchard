@@ -4,7 +4,7 @@ set -e
 ssh $IMAGE_USER@$IMAGE_HOST "
   cd /tmp &&
   git clone https://github.com/pivotal-sprout/sprout-orchard.git &&
-  eval `ssh-agent` &&
+  eval \`ssh-agent\` &&
   ssh-add  ~/.ssh/id_github_private &&
   ( ssh -o StrictHostKeyChecking=no git@github.com exit; : ) &&
   git clone $SPROUT_WRAP_GIT_URL sprout-wrap"
