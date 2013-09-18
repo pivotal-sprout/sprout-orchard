@@ -1,30 +1,35 @@
 #!/bin/bash
 set -e
 
+# Start the ssh-agent and save the information; we'll need it later
+SSH_AGENT=$(ssh $IMAGE_USER@$IMAGE_HOST ssh-agent)
+
+
 ssh $IMAGE_USER@$IMAGE_HOST "
+  eval $SSH_AGENT 
+  ssh-add  ~/.ssh/id_github_private ;
+  ( ssh -o StrictHostKeyChecking=no git@github.com exit; : ) &&
   cd /tmp &&
   git clone https://github.com/pivotal-sprout/sprout-orchard.git &&
-  eval \`ssh-agent\` &&
-  ssh-add  ~/.ssh/id_github_private &&
-  ( ssh -o StrictHostKeyChecking=no git@github.com exit; : ) &&
   git clone $SPROUT_WRAP_GIT_URL sprout-wrap"
 
 if [[ $PIVOTAL_LABS != "0" ]]; then
-  ssh $IMAGE_USER@$IMAGE_HOST 'eval `ssh-agent` &&
-    ssh-add  ~/.ssh/id_github_private &&
-    ( ssh -o StrictHostKeyChecking=no git@github.com exit; : ) &&
+  ssh $IMAGE_USER@$IMAGE_HOST "
+    eval $SSH_AGENT 
     cd /tmp &&
     git clone git@github.com:pivotal/pivotal_workstation_private.git &&
-    echo "cookbook \"pivotal_workstation_private\", :path => \"/tmp/pivotal_workstation_private\"" >> /tmp/sprout-wrap/Cheffile'
+    echo 'cookbook \'pivotal_workstation_private\', :path => \'/tmp/pivotal_workstation_private\'' >> /tmp/sprout-wrap/Cheffile"
 fi
 
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
-ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && sudo gem install bundler && sudo bundle install && bundle exec soloist'
+ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT
+  cd /tmp/sprout-wrap && sudo gem install bundler && sudo bundle install && bundle exec soloist"
 
 if [[ $PIVOTAL_LABS ]]; then
-  ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && bundle exec soloist run_recipe meta::pivotal_specifics'
-  ssh $IMAGE_USER@$IMAGE_HOST 'cd /tmp/sprout-wrap && bundle exec soloist run_recipe pivotal_workstation_private::meta_lion_image'
-
+  ssh $IMAGE_USER@$IMAGE_HOST "
+    eval $SSH_AGENT
+    bundle exec soloist run_recipe meta::pivotal_specifics
+    bundle exec soloist run_recipe pivotal_workstation_private::meta_lion_image"
   # Successful run, in the future we should tag
 fi
 
