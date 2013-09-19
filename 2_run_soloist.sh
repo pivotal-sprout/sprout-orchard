@@ -25,10 +25,11 @@ ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping
 ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT
   cd /tmp/sprout-wrap && sudo gem install bundler && sudo bundle install && bundle exec soloist"
 
-if [[ $PIVOTAL_LABS ]]; then
+if [[ $PIVOTAL_LABS != "0" ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST "
     eval $SSH_AGENT
-    bundle exec soloist run_recipe meta::pivotal_specifics
+    cd /tmp/sprout-wrap &&
+    bundle exec soloist run_recipe meta::pivotal_specifics &&
     bundle exec soloist run_recipe pivotal_workstation_private::meta_lion_image"
   # Successful run, in the future we should tag
 fi
