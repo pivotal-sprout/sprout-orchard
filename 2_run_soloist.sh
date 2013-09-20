@@ -24,10 +24,9 @@ fi
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
 ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT
   cd /tmp &&
-  curl -LO https://www.opscode.com/chef/install.sh &&
+  curl -LO https://github.com/pivotal-sprout/omnibus-soloist/releases/download/1.0.1/install.sh &&
   sudo bash install.sh &&
-  sudo ln -sf /opt/soloist/bin/soloist /usr/bin
-  "
+  sudo ln -sf /opt/soloist/bin/soloist /usr/bin"
 
 if [[ $PIVOTAL_LABS != "0" ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST "
