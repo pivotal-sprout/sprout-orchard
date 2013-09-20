@@ -23,14 +23,18 @@ fi
 
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
 ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT
-  cd /tmp/sprout-wrap && sudo gem install bundler && sudo bundle install && bundle exec soloist"
+  cd /tmp &&
+  curl -LO https://www.opscode.com/chef/install.sh &&
+  sudo bash install.sh &&
+  sudo ln -sf /opt/soloist/bin/soloist /usr/bin
+  "
 
 if [[ $PIVOTAL_LABS != "0" ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST "
     eval $SSH_AGENT
     cd /tmp/sprout-wrap &&
-    bundle exec soloist run_recipe meta::pivotal_specifics &&
-    bundle exec soloist run_recipe pivotal_workstation_private::meta_lion_image"
+    soloist run_recipe meta::pivotal_specifics &&
+    soloist run_recipe pivotal_workstation_private::meta_lion_image"
   # Successful run, in the future we should tag
 fi
 
