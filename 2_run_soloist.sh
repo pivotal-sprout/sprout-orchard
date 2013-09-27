@@ -25,12 +25,12 @@ ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping
 ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT
   cd /tmp &&
   curl -LO https://github.com/pivotal-sprout/omnibus-soloist/releases/download/1.0.1/install.sh &&
-  sudo bash install.sh &&
-  sudo ln -sf /opt/soloist/bin/soloist /usr/bin"
+  sudo bash install.sh"
 
 if [[ $PIVOTAL_LABS != "0" ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST "
     eval $SSH_AGENT
+    PATH+=:/opt/soloist/bin/
     cd /tmp/sprout-wrap &&
     soloist run_recipe meta::pivotal_specifics &&
     soloist run_recipe pivotal_workstation_private::meta_lion_image"
