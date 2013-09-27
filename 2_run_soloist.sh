@@ -18,7 +18,7 @@ if [[ $PIVOTAL_LABS != "0" ]]; then
     eval $SSH_AGENT 
     cd /tmp &&
     git clone git@github.com:pivotal/pivotal_workstation_private.git &&
-    echo 'cookbook \'pivotal_workstation_private\', :path => \'/tmp/pivotal_workstation_private\'' >> /tmp/sprout-wrap/Cheffile"
+    echo 'cookbook '\''pivotal_workstation_private'\'', :path => '\''/tmp/pivotal_workstation_private'\''' >> /tmp/sprout-wrap/Cheffile"
 fi
 
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
