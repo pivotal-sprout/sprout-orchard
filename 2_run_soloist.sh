@@ -32,6 +32,7 @@ if [[ $PIVOTAL_LABS != "0" ]]; then
     eval $SSH_AGENT
     PATH+=:/opt/soloist/bin/
     cd /tmp/sprout-wrap &&
+    soloist &&
     soloist run_recipe meta::pivotal_specifics &&
     soloist run_recipe pivotal_workstation_private::meta_lion_image"
   # Successful run, in the future we should tag
