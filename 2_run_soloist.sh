@@ -65,7 +65,7 @@ rm ~/Desktop/VMWare\ Shared\ Folders
 true'
 
 # FIXME: this shouldn't be necessary
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo diskutil mount $(diskutil list | grep Persistent | awk '{print $6}')'
+ssh $IMAGE_USER@$IMAGE_HOST 'sudo diskutil mount $(diskutil list | grep Persistent | awk "{print \$6}")'
 
 # reboot to Persistent
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo bless --mount /Volumes/Persistent --setboot'
