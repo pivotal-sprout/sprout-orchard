@@ -8,6 +8,10 @@ email_addr = ENV['EMAIL_ADDR']
 
 date=`date +%Y-%m-%d_%H-%M`.chop
 
+# allow time for automated login & mounting of disks to work
+# We need AT LEAST a minute for the disk to mount
+sleep 90
+
 puts "removing now-useless .curlrc"
 system("ssh #{image_user_at_host} 'sudo rm /Volumes/NEWLY_IMAGED/{var/root,Users/#{ENV['IMAGE_USER']}}/.curlrc'")
 puts "Setting Pivotal Workstation release date"

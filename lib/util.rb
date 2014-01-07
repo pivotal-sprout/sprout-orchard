@@ -19,6 +19,14 @@ module Util
     system("ssh #{image_user_at_host} -o ConnectTimeout=5 'sudo hdid #{$persistent_partition}; sudo hdid #{$newly_imaged_partition}; df' | grep '/Volumes/NEWLY_IMAGED'")
   end
 
+  def rename_volume(old_name, new_name)
+    system("ssh #{image_user_at_host} diskutil rename /Volumes/#{old_name} #{new_name}")
+  end
+
+  def find_partition(name)
+    `ssh #{image_user_at_host} diskutil list`.each_line.map {|line| line =~ /#{name}/ && "/dev/"+line.split[5] }.compact.first
+  end
+
   def reboot_to(volume)
     puts("rebooting to #{volume}")
     system("ssh #{image_user_at_host} 'sudo hdiutil attach /dev/disk0'")

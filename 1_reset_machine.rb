@@ -10,19 +10,11 @@ image_user_at_host = image_user + '@' + ENV['IMAGE_HOST']
 puts "test if ssh-without-password is working"
 system!("ssh #{image_user_at_host} 'true'")
 
-def rename_volume(old_name, new_name)
-  system("ssh #{image_user_at_host} diskutil rename /Volumes/#{old_name} #{new_name}")
-end
-
-def find_partition(name)
-  `ssh #{image_user_at_host} diskutil list`.each_line.map {|line| line =~ /#{name}/ && "/dev/"+line.split[5] }.compact.first
-end
-
 puts "determining imaging partition"
 $persistent_partition = find_partition "Persistent"
 $newly_imaged_partition = find_partition "NEWLY_IMAGED"
 if !$newly_imaged_partition
-  # Assume a recipe renamed 'NEWLY_IMAGED' disk to the hostname
+  # Assume a recipe has renamed 'NEWLY_IMAGED' disk to the hostname
   # we're going to set it back to 'NEWLY_IMAGED'
   rename_volume(ENV['IMAGE_HOST'],"NEWLY_IMAGED")
   $newly_imaged_partition = find_partition "NEWLY_IMAGED"
@@ -32,8 +24,6 @@ if !$newly_imaged_partition
     exit 1
   end
 end
-
-
 
 unless on_persistent?
   reboot_to("/Volumes/Persistent")
