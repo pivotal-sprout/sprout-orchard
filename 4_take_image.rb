@@ -19,6 +19,7 @@ def run_command(command)
   exit_code = $?
   puts "       Output: #{output}"
   puts "    Exit Code: #{exit_code}"
+  exit_code.exitstatus
 end
 
 puts "removing now-useless .curlrc"
