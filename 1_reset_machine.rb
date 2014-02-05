@@ -12,12 +12,13 @@ system!("ssh #{image_user_at_host} 'true'")
 
 puts "determining imaging partition"
 $persistent_partition = find_partition "Persistent"
-$newly_imaged_partition = find_partition "NEWLY_IMAGED"
+name = "NEWLY_IMAGED"
+$newly_imaged_partition = find_partition name
 if !$newly_imaged_partition
   # Assume a recipe has renamed 'NEWLY_IMAGED' disk to the hostname
   # we're going to set it back to 'NEWLY_IMAGED'
-  rename_volume(ENV['IMAGE_HOST'],"NEWLY_IMAGED")
-  $newly_imaged_partition = find_partition "NEWLY_IMAGED"
+  rename_volume(ENV['IMAGE_HOST'], name)
+  $newly_imaged_partition = find_partition name
   if !$newly_imaged_partition
     puts "'diskutil list' couldn't find a partition /Volumes/#{name}"
     puts "try 'sudo diskutil rename /Volumes/blah_blah #{name}' to fix"
