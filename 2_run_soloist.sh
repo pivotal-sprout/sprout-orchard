@@ -24,19 +24,20 @@ fi
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
 ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT
   cd /tmp &&
-  curl -LO https://github.com/pivotal-sprout/omnibus-soloist/releases/download/1.0.1/install.sh &&
-  sudo bash install.sh &&
-  PATH+=:/opt/soloist/bin/ &&
-  cd /tmp/sprout-wrap &&
-  soloist"
+  cd /tmp/sprout-wrap && sudo gem install bundler && sudo bundle install && bundle exec soloist"
+#  curl -LO https://github.com/pivotal-sprout/omnibus-soloist/releases/download/1.0.1/install.sh &&
+#  sudo bash install.sh &&
+#  PATH+=:/opt/soloist/bin/ &&
+#  cd /tmp/sprout-wrap &&
+#  soloist"
 
 if [[ $PIVOTAL_LABS != "0" ]]; then
   ssh $IMAGE_USER@$IMAGE_HOST "
     eval $SSH_AGENT
     PATH+=:/opt/soloist/bin/
     cd /tmp/sprout-wrap &&
-    soloist run_recipe meta::pivotal_specifics &&
-    soloist run_recipe pivotal_workstation_private::meta_lion_image"
+    bundle exec soloist run_recipe meta::pivotal_specifics &&
+    bundle exec soloist run_recipe pivotal_workstation_private::meta_lion_image"
   # Successful run, in the future we should tag
 fi
 
