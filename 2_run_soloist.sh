@@ -4,6 +4,11 @@ set -e
 # Start the ssh-agent and save the information; we'll need it later
 SSH_AGENT=$(ssh $IMAGE_USER@$IMAGE_HOST ssh-agent)
 
+function run_via_ssh() {
+  cmd=$1
+  echo "Running: '$cmd'"
+  ssh $IMAGE_USER@$IMAGE_HOST "$cmd"
+}
 
 ssh $IMAGE_USER@$IMAGE_HOST "
   eval $SSH_AGENT
@@ -21,11 +26,11 @@ if [[ $PIVOTAL_LABS != "0" ]]; then
     echo 'cookbook '\''pivotal_workstation_private'\'', :path => '\''/tmp/pivotal_workstation_private'\''' >> /tmp/sprout-wrap/Cheffile"
 fi
 
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
-ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT cd /tmp/sprout-wrap && sudo gem install bundler"
-ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT cd /tmp/sprout-wrap && sudo bundle install --without development"
-ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT cat /tmp/sprout-wrap/.bundle/config"
-ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT cd /tmp/sprout-wrap && bundle exec soloist"
+run_via_ssh 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
+run_via_ssh 'cd /tmp/sprout-wrap && sudo gem install bundler'
+run_via_ssh 'cd /tmp/sprout-wrap && sudo bundle install --without development'
+run_via_ssh 'cat /tmp/sprout-wrap/.bundle/config'
+run_via_ssh 'cd /tmp/sprout-wrap && bundle exec soloist'
 #  curl -LO https://github.com/pivotal-sprout/omnibus-soloist/releases/download/1.0.1/install.sh &&
 #  sudo bash install.sh &&
 #  PATH+=:/opt/soloist/bin/ &&
@@ -49,9 +54,9 @@ ssh $IMAGE_USER@$IMAGE_HOST 'sudo hostname NEWLY_IMAGED
   sudo scutil --set HostName       NEWLY_IMAGED
   sudo diskutil rename /           NEWLY_IMAGED'
 
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo cp /tmp/sprout-orchard/assets/com.pivotallabs.first_run.plist  /Library/LaunchAgents/'
-ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/first_run.rb /usr/sbin/'
-ssh $IMAGE_USER@$IMAGE_HOST 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/auto_set_hostname.rb /usr/sbin/'
+run_via_ssh 'sudo cp /tmp/sprout-orchard/assets/com.pivotallabs.first_run.plist  /Library/LaunchAgents/'
+run_via_ssh 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/first_run.rb /usr/sbin/'
+run_via_ssh 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
 # turn off vmware tools (VMware Shared Folders) if installed
 ssh $IMAGE_USER@$IMAGE_HOST 'for PLIST in \
@@ -67,8 +72,8 @@ rm ~/Desktop/VMWare\ Shared\ Folders
 true'
 
 # FIXME: this shouldn't be necessary
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo diskutil mount $(diskutil list | grep Persistent | awk "{print \$6}")'
+run_via_ssh 'sudo diskutil mount $(diskutil list | grep Persistent | awk "{print \$6}")'
 
 # reboot to Persistent
-ssh $IMAGE_USER@$IMAGE_HOST 'sudo bless --mount /Volumes/Persistent --setboot'
-ssh $IMAGE_USER@$IMAGE_HOST 'rm -fr ~/.ssh/id_github_private ~/.ssh/authorized_keys && sudo shutdown -r now'
+run_via_ssh 'sudo bless --mount /Volumes/Persistent --setboot'
+run_via_ssh 'rm -fr ~/.ssh/id_github_private ~/.ssh/authorized_keys && sudo shutdown -r now'
