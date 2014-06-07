@@ -24,7 +24,7 @@ fi
 ssh $IMAGE_USER@$IMAGE_HOST 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
 ssh $IMAGE_USER@$IMAGE_HOST "eval $SSH_AGENT
   cd /tmp &&
-  cd /tmp/sprout-wrap && sudo gem install bundler && sudo bundle install && bundle exec soloist"
+  cd /tmp/sprout-wrap && sudo gem install bundler && sudo bundle install --without development && bundle exec soloist"
 #  curl -LO https://github.com/pivotal-sprout/omnibus-soloist/releases/download/1.0.1/install.sh &&
 #  sudo bash install.sh &&
 #  PATH+=:/opt/soloist/bin/ &&
