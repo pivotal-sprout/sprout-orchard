@@ -29,6 +29,7 @@ fi
 run_via_ssh 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
 run_via_ssh 'sudo gem update --system'
 run_via_ssh 'sudo gem install bundler --no-rdoc --no-ri'
+run_via_ssh 'cd /tmp/sprout-wrap && sudo bundle install || true' # so that git: https://github.com/acrmp/foodcritic is on disk
 run_via_ssh 'cd /tmp/sprout-wrap && sudo bundle install --without development'
 run_via_ssh 'cat /tmp/sprout-wrap/.bundle/config'
 run_via_ssh 'cd /tmp/sprout-wrap && bundle exec soloist'
