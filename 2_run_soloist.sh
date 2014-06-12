@@ -26,9 +26,20 @@ if [[ $PIVOTAL_LABS != "0" ]]; then
     echo 'cookbook '\''pivotal_workstation_private'\'', :path => '\''/tmp/pivotal_workstation_private'\''' >> /tmp/sprout-wrap/Cheffile"
 fi
 
+NOKOGIRI_INSTALL='mkdir /tmp/libiconv
+  cd /tmp/libiconv
+  curl -OL http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.13.1.tar.gz
+  tar xvfz libiconv-1.13.1.tar.gz
+  cd libiconv-1.13.1
+  ./configure --prefix=/usr/local/Cellar/libiconv/1.13.1
+  make
+  sudo make install
+  sudo gem install nokogiri -- --with-iconv-include=/usr/local/Cellar/libiconv/1.13.1/include --with-iconv-lib=/usr/local/Cellar/libiconv/1.13.1/lib'
+
 run_via_ssh 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will lose build)
 run_via_ssh 'sudo gem update --system'
 run_via_ssh 'sudo gem install bundler --no-rdoc --no-ri'
+run_via_ssh "$NOKOGIRI_INSTALL"
 run_via_ssh 'cd /tmp/sprout-wrap && sudo bundle install || true' # so that git: https://github.com/acrmp/foodcritic is on disk
 run_via_ssh 'cd /tmp/sprout-wrap && sudo bundle install --without development'
 run_via_ssh 'cat /tmp/sprout-wrap/.bundle/config'
