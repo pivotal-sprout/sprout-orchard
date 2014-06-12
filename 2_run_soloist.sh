@@ -40,7 +40,7 @@ run_via_ssh 'sudo pmset sleep 0' # prevent machine from sleeping (otherwise will
 run_via_ssh 'sudo gem update --system'
 run_via_ssh 'sudo gem install bundler --no-rdoc --no-ri'
 run_via_ssh "$NOKOGIRI_INSTALL"
-run_via_ssh 'cd /tmp/sprout-wrap && sudo bundle install && bundle exec soloist''
+run_via_ssh 'cd /tmp/sprout-wrap && sudo bundle install && bundle && bundle exec soloist''
 #  curl -LO https://github.com/pivotal-sprout/omnibus-soloist/releases/download/1.0.1/install.sh &&
 #  sudo bash install.sh &&
 #  PATH+=:/opt/soloist/bin/ &&
