@@ -69,17 +69,8 @@ run_via_ssh 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/first_run.rb /usr/s
 run_via_ssh 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
 # turn off vmware tools (VMware Shared Folders) if installed
-ssh $IMAGE_USER@$IMAGE_HOST 'for PLIST in \
-  /Library/LaunchAgents/com.vmware.launchd.vmware-tools-userd.plist \
-  /Library/LaunchDaemons/com.vmware.launchd.tools.plist
-do
-  [ -f $PLIST ] &&
-  sudo defaults write $PLIST RunAtLoad -bool false &&
-  sudo plutil -convert xml1 $PLIST &&
-  sudo chmod 444 $PLIST
-done
+sudo rm /Library/LaunchAgents/com.vmware.launchd.vmware-tools-userd.plist /Library/LaunchDaemons/com.vmware.launchd.tools.plist
 rm ~/Desktop/VMWare\ Shared\ Folders
-true'
 
 # FIXME: this shouldn't be necessary
 run_via_ssh 'sudo diskutil mount $(diskutil list | grep Persistent | awk "{print \$6}")'
