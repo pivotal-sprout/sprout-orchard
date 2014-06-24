@@ -69,8 +69,9 @@ run_via_ssh 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/first_run.rb /usr/s
 run_via_ssh 'mkdir ~/bin; sudo cp /tmp/sprout-orchard/assets/auto_set_hostname.rb /usr/sbin/'
 
 # turn off vmware tools (VMware Shared Folders) if installed
-sudo rm /Library/LaunchAgents/com.vmware.launchd.vmware-tools-userd.plist /Library/LaunchDaemons/com.vmware.launchd.tools.plist
-rm ~/Desktop/VMWare\ Shared\ Folders
+run_via_ssh 'sudo rm /Library/LaunchAgents/com.vmware.launchd.vmware-tools-userd.plist'
+run_via_ssh 'sudo rm /Library/LaunchDaemons/com.vmware.launchd.tools.plist'
+run_via_ssh 'rm -rf "~/Desktop/VMWare\ Shared\ Folders"'
 
 # FIXME: this shouldn't be necessary
 run_via_ssh 'sudo diskutil mount $(diskutil list | grep Persistent | awk "{print \$6}")'
